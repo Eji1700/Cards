@@ -40,15 +40,6 @@ module Deck =
     type Deck = 
         Card list
 
-    let createDeck : Deck  =
-         [for suit in suits do
-            for face in faces do
-                yield {Face=face; Suit=suit}]
-                 
-    let createDeck2 : Deck =
-        List.allPairs faces suits 
-        |> List.map (fun (face, suit) -> { Face=face; Suit=suit })
-
-    let createDeck3 : Deck =
+    let createDeck : Deck =
         List.allPairs faces suits 
         |> List.map create
