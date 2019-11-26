@@ -44,11 +44,11 @@ module Deck =
          [for suit in suits do
             for face in faces do
                 yield {Face=face; Suit=suit}]
+                 
+    let createDeck2 : Deck =
+        List.allPairs faces suits 
+        |> List.map (fun (face, suit) -> { Face=face; Suit=suit })
 
-    let createDeck2 =
-        Seq.allPairs faces suits 
-        |> Seq.map (fun (face, suit) -> { Face=face; Suit=suit })
-
-    let createDeck3 =
-        Seq.allPairs faces suits 
-        |> Seq.map create
+    let createDeck3 : Deck =
+        List.allPairs faces suits 
+        |> List.map create
