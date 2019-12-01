@@ -1,10 +1,11 @@
 ﻿open System
-open Types
+open Logic
 
-let x = Deck.createDeck
+let x = LDeck.createDeck
 
 [<EntryPoint>]
 let main argv =
-    printfn "%A" x
+    let y = LDeck.shuffle x
+    let z = LDeck.dealCard y
     Console.ReadKey() |> ignore
     0 // return an integer exit code
