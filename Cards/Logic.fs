@@ -39,3 +39,22 @@ module LDeck =
     let dealCard (deck: Deck) : Deck =
         printfn "%A" deck.Head
         deck.Tail
+
+module LPlayer =
+    open System
+    open Players
+
+    //move to own module?
+    let rec inputMoney() =
+        match (System.Decimal.TryParse(Console.ReadLine())) with
+        | (true, value) -> value
+        | (false, _) ->  
+            printfn "Please enter a valid amount of Money"
+            inputMoney()
+
+    let createPlayer =
+        printfn "What is your name?"
+        let n = Console.ReadLine()
+        printfn "How much money do you have?"
+        let s = inputMoney()
+        {Name = n; Hand = []; Stack = s; Bet = 0m}

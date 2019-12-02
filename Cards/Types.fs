@@ -26,8 +26,5 @@ module Players =
     type Hand =
         Card list
 
-    type Stack =
-        decimal
-
     type Player =
-        {Hands:Hand; Stacks:Stack}
+        {Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
