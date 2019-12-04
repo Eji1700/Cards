@@ -1,9 +1,17 @@
 namespace Logic
-open Types
+
+module Validate =
+    open System
+    let rec inputMoney() =
+        match (System.Decimal.TryParse(Console.ReadLine())) with
+        | (true, value) -> value
+        | (false, _) ->  
+            printfn "Please enter a valid amount of Money"
+            inputMoney()
 
 module LCard =
-    open Cards
-
+    open Types.Cards
+    
     let suits =
         [Spades; Hearts; Clubs; Diamonds]
 
@@ -25,7 +33,7 @@ module LCard =
         {Face = f; Suit = s}
 
 module LDeck =
-    open Deck
+    open Types.Deck
     open LCard
 
     let createDeck : Deck =
@@ -41,20 +49,17 @@ module LDeck =
         deck.Tail
 
 module LPlayer =
+    open Types.Players
     open System
-    open Players
+    open Validate
 
-    //move to own module?
-    let rec inputMoney() =
-        match (System.Decimal.TryParse(Console.ReadLine())) with
-        | (true, value) -> value
-        | (false, _) ->  
-            printfn "Please enter a valid amount of Money"
-            inputMoney()
+    let setName() =
+        printfn "What is your name?"
+        Console.ReadLine()
+
+    let setMoney() =
+        printfn "How much money do you have?"
+        inputMoney()
 
     let createPlayer =
-        printfn "What is your name?"
-        let n = Console.ReadLine()
-        printfn "How much money do you have?"
-        let s = inputMoney()
-        {Name = n; Hand = []; Stack = s; Bet = 0m}
+        {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
