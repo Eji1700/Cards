@@ -11,7 +11,7 @@ module Validate =
 
 module LCard =
     open Types.Cards
-    
+
     let suits =
         [Spades; Hearts; Clubs; Diamonds]
 
@@ -34,6 +34,7 @@ module LCard =
 
 module LDeck =
     open Types.Deck
+    open Types.Players
     open LCard
 
     let createDeck : Deck =
@@ -43,10 +44,6 @@ module LDeck =
     let shuffle (deck: Deck) : Deck = 
         let random = System.Random()
         deck |> List.sortBy (fun x -> random.Next())
-
-    let dealCard (deck: Deck) : Deck =
-        printfn "%A" deck.Head
-        deck.Tail
 
 module LPlayer =
     open Types.Players
