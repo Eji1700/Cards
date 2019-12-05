@@ -60,3 +60,13 @@ module LPlayer =
 
     let createPlayer =
         {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
+
+module Deal =
+    open Types.Deck
+    open Types.Players
+
+    let drawOne (d:Deck) (p:Player) : Deck =
+        let x:Hand = [d.Head]
+        List.append p.Hand x
+        d.Tail 
+        
