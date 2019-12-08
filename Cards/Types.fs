@@ -28,3 +28,17 @@ module Players =
 
     type Player =
         {Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
+
+module Games = 
+    open Cards
+    open Deck
+    open Players
+
+    type Game = 
+        {Deck:Deck; Players: Player list}
+    
+    type Deal =
+        Deck -> (Deck*Card)
+
+    type PickupCard = 
+        (Hand*Card) -> Hand

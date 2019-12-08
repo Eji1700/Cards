@@ -62,11 +62,20 @@ module LPlayer =
         {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
 module Deal =
+    open Types.Cards
     open Types.Deck
     open Types.Players
+    open Types.Games
 
     let drawOne (d:Deck) (p:Player) : Deck =
         let x:Hand = [d.Head]
         List.append p.Hand x
         d.Tail 
         
+    let dealOne (d:Deck)  =
+         (d.Tail:Deck), (d.Head:Card)
+
+    let test (a:Deal) (d:Deck) =
+        a 
+        
+    

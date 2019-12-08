@@ -1,16 +1,36 @@
 ﻿open System
 open Logic
+open Types.Games
+open Types.Deck
 
-let x = LDeck.createDeck
+//MAKE GAME STATE TYPE/OBJECT TO PASS TO ITSELF RECURSIVELY
+//should have players and deck/dealer?  Then it just modifies itself and passes back?
+// Could do a match on "type" of action, ex Deal
+
+let a = LPlayer.createPlayer
+let b = LPlayer.createPlayer
+
+let table p np =
+    np::p
+
+let x = 
+    LDeck.createDeck
+    |> LDeck.shuffle
+
+
+let gameState = {Deck = x;Players = [a]}
+
+let gameState2 g b = 
+    {Deck = g.Deck; Players = (table b g.Players.[0])}
+
+ let y = Deal.test Deal.dealOne(x)
+
+
+let blah = Deal.test  
 
 [<EntryPoint>]
 let main argv =
-    let a = LPlayer.createPlayer
-    let y = LDeck.shuffle x
-    let z = LDeck.dealCard y
-    printfn "%A" a.Name
-    printfn "%A" a.Stack
-    printfn "%A" a.Bet
-    printfn "%A" a.Hand
+
+    printfn "%A" gameState2
     Console.ReadKey() |> ignore
     0 // return an integer exit code
