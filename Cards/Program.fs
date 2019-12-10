@@ -10,27 +10,14 @@ open Types.Deck
 let a = LPlayer.createPlayer
 let b = LPlayer.createPlayer
 
-let table p np =
-    np::p
-
 let x = 
     LDeck.createDeck
     |> LDeck.shuffle
 
-
-let gameState = {Deck = x;Players = [a]}
-
-let gameState2 g b = 
-    {Deck = g.Deck; Players = (table b g.Players.[0])}
-
- let y = Deal.test Deal.dealOne(x)
-
-
-let blah = Deal.test  
-
 [<EntryPoint>]
 let main argv =
 
-    printfn "%A" gameState2
+    printfn "%A" b
+    printfn "%A" a
     Console.ReadKey() |> ignore
     0 // return an integer exit code
