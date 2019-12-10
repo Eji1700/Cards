@@ -7,8 +7,7 @@ open Types.Deck
 //should have players and deck/dealer?  Then it just modifies itself and passes back?
 // Could do a match on "type" of action, ex Deal
 
-let a = LPlayer.createPlayer
-let b = LPlayer.createPlayer
+
 
 let x = 
     LDeck.createDeck
@@ -16,7 +15,8 @@ let x =
 
 [<EntryPoint>]
 let main argv =
-
+    let a = LPlayer.createPlayer
+    let b = LPlayer.createPlayer
     printfn "%A" b
     printfn "%A" a
     Console.ReadKey() |> ignore

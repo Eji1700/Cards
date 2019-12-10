@@ -1,44 +1,43 @@
 ﻿namespace Types
+    module Cards =
+        type Suits =
+            | Spades
+            | Hearts
+            | Clubs
+            | Diamonds
 
-module Cards =
-    type Suits =
-        | Spades
-        | Hearts
-        | Clubs
-        | Diamonds
+        type Faces =
+            | Two | Three | Four | Five | Six | Seven
+            | Eight | Nine | Ten | Jack | Queen | King | Ace
 
-    type Faces =
-        | Two | Three | Four | Five | Six | Seven
-        | Eight | Nine | Ten | Jack | Queen | King | Ace
+        type Card=
+            {Face:Faces; Suit: Suits}    
 
-    type Card=
-        {Face:Faces; Suit: Suits}    
+    module Deck =  
+        open Cards
+        
+        type Deck = 
+            Card list
 
-module Deck =  
-    open Cards
-    
-    type Deck = 
-        Card list
+    module Players =
+        open Cards
 
-module Players =
-    open Cards
+        type Hand =
+            Card list
 
-    type Hand =
-        Card list
+        type Player =
+            {Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
 
-    type Player =
-        {Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
+    module Games = 
+        open Cards
+        open Deck
+        open Players
 
-module Games = 
-    open Cards
-    open Deck
-    open Players
+        type Game = 
+            {Deck:Deck; Players: Player list}
+        
+        type Deal =
+            Deck -> (Deck*Card)
 
-    type Game = 
-        {Deck:Deck; Players: Player list}
-    
-    type Deal =
-        Deck -> (Deck*Card)
-
-    type PickupCard = 
-        (Hand*Card) -> Hand
+        type PickupCard = 
+            (Hand*Card) -> Hand
