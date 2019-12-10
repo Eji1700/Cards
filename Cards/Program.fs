@@ -10,13 +10,13 @@ open Types.Deck
 
 
 let x = 
-    LDeck.createDeck
+    LDeck.createDeck()
     |> LDeck.shuffle
 
 [<EntryPoint>]
 let main argv =
-    let a = LPlayer.createPlayer
-    let b = LPlayer.createPlayer
+    let a = LPlayer.createPlayer()
+    let b = LPlayer.createPlayer()
     printfn "%A" b
     printfn "%A" a
     Console.ReadKey() |> ignore

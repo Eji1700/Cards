@@ -36,7 +36,7 @@ namespace Logic
         open Types.Players
         open LCard
 
-        let createDeck : Deck =
+        let createDeck (): Deck =
             List.allPairs faces suits 
             |> List.map create
 
@@ -57,7 +57,7 @@ namespace Logic
             printfn "How much money do you have?"
             inputMoney()
 
-        let createPlayer =
+        let createPlayer() =
             {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
     module Deal =
