@@ -34,7 +34,7 @@
         open Players
 
         type Game = 
-            {Deck:Deck; Players: Player list}
+            {Deck:Deck; Players: Player list; Dealt: Card}
         
         type Deal =
             Deck -> (Deck*Card)
