@@ -23,7 +23,7 @@
         open Cards
 
         type Hand =
-            Card list
+            Card List
 
         type Player =
             {Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}

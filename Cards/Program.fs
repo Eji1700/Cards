@@ -7,8 +7,6 @@ open Types.Deck
 //should have players and deck/dealer?  Then it just modifies itself and passes back?
 // Could do a match on "type" of action, ex Deal
 
-
-
 let x = 
     LDeck.createDeck()
     |> LDeck.shuffle
