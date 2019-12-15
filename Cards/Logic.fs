@@ -60,12 +60,10 @@ namespace Logic
             {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
     module Deal =
-        open Types.Cards
-        open Types.Deck
-        open Types.Players
-            
-        let dealOne (d:Deck)  =
-             (d.Tail:Deck), (d.Head:Card)
+        open Types.Games
 
-        let takeOne (h:Hand, c: Card) : Hand =
-            c :: h
+        let dealOne: Deal =
+            fun (d) -> d.Tail, d.Head
+
+        let takeOne: PickupCard =
+            fun (h,c) -> c::h
