@@ -27,7 +27,7 @@ let updateGameState g =
 let main argv =
     let g1 = 
         let y = Deal.dealOne gameState.Deck
-        {Deck = fst y; Players = [ ]; Dealt = Some (snd y)}
+        {Deck = fst y; Players = []; Dealt = Some (snd y)}
 
     printfn "%A" (g1.Deck.Length)
     Console.ReadKey() |> ignore

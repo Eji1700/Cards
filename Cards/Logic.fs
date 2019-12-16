@@ -45,6 +45,7 @@ namespace Logic
 
     module LPlayer =
         open Types.Players
+        open Types.Games
         open System
         open Validate
 
@@ -58,6 +59,12 @@ namespace Logic
 
         let createPlayer() =
             {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
+
+        let addPlayer g =
+            let a = createPlayer()
+            let b = g.Players
+            let c = a :: b
+            {g with Players = c}
 
     module Deal =
         open Types.Games
