@@ -1,5 +1,6 @@
 ﻿open System
 open Logic
+open Types.Games
 
 //MAKE GAME STATE TYPE/OBJECT TO PASS TO ITSELF RECURSIVELY
 //should have players and deck/dealer?  Then it just modifies itself and passes back?
@@ -12,8 +13,22 @@ let x =
 let y = 
     Deal.dealOne x
 
+let gameState =
+    {Deck = x;
+    Players = [];
+    Dealt = None}
+
+let updateGameState g =
+    {Deck = g.Deck; 
+    Players = g.Players; 
+    Dealt = g.Dealt}
+
 [<EntryPoint>]
 let main argv =
-    printfn "%A" (snd y)
+    let g1 = 
+        let y = Deal.dealOne gameState.Deck
+        {Deck = fst y; Players = [ ]; Dealt = Some (snd y)}
+
+    printfn "%A" (g1.Deck.Length)
     Console.ReadKey() |> ignore
     0 // return an integer exit code

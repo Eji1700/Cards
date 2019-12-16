@@ -66,4 +66,4 @@ namespace Logic
             fun (d) -> d.Tail, d.Head
 
         let takeOne: PickupCard =
-            fun (h,c) -> c::h
+            fun (h,c) -> Some c::h

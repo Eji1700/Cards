@@ -23,7 +23,7 @@
         open Cards
 
         type Hand =
-            Card List
+            Card Option List
 
         type Player =
             {Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
@@ -34,7 +34,9 @@
         open Players
 
         type Game = 
-            {Deck:Deck; Players: Player list; Dealt: Card}
+            {Deck: Deck;
+             Players: Player list;
+              Dealt: Card Option}
         
         type Deal =
             Deck -> (Deck*Card)
