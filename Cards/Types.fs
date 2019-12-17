@@ -10,7 +10,7 @@
             | Two | Three | Four | Five | Six | Seven
             | Eight | Nine | Ten | Jack | Queen | King | Ace
 
-        type Card=
+        type Card =
             {Face:Faces; Suit: Suits}    
 
     module Deck =  
@@ -42,4 +42,4 @@
             Deck -> (Deck*Card)
 
         type PickupCard = 
-            (Hand*Card) -> Hand
+            (Player*Card) -> Player

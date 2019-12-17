@@ -49,25 +49,41 @@ namespace Logic
         open System
         open Validate
 
-        let setName() =
+        let private setName() =
             printfn "What is your name?"
             Console.ReadLine()
 
-        let setMoney() =
+        let private setMoney() =
             printfn "How much money do you have?"
             inputMoney()
 
-        let createPlayer() =
+        let private createPlayer() =
             {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
         let addPlayer g =
             {g with Players = createPlayer() :: g.Players}
 
     module Deal =
+        open Types.Cards
+        open Types.Deck
+        open Types.Players
         open Types.Games
 
-        let dealOne: Deal =
-            fun (d) -> d.Tail, d.Head
+        let dealOne (d:Deck) =
+            (d.Tail:Deck), (d.Head: Card)
 
-        let takeOne: PickupCard =
-            fun (h,c) -> Some c::h
+        let takeOne (p:Player, c:Card): Player =
+            {p with Hand = Some c::p.Hand }
+    
+    module Output =
+        open Types.Cards
+        open Types.Players
+
+        let DisplayCard c =
+            match c with 
+            | c -> printfn "%A of %A" (Some c.Face) (Some c.Suit)
+
+        let rec DisplayHand (h:Hand) =
+            match h.Head with
+            | Some c -> DisplayCard c; DisplayHand h.Tail
+            | None -> ignore

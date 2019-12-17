@@ -32,6 +32,12 @@ let main argv =
         let y = Deal.dealOne g1.Deck
         {g1 with Deck = fst y; Dealt = Some (snd y)}
 
+    // let g3 =
+    //     let z = Deal.takeOne (g2.Players.Head.Hand, (Some g2.Dealt))
+    //     {}
+
+    //Output.DisplayHand() g2.Players.Head.Hand
+
     printfn "%A" (g2.Players.Head.Name)
     printfn "%A" (g2.Deck.Length)
     Console.ReadKey() |> ignore
