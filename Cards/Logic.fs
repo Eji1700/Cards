@@ -69,10 +69,10 @@ namespace Logic
         open Types.Players
         open Types.Games
 
-        let dealOne (d:Deck) =
+        let DealOne (d:Deck) =
             (d.Tail:Deck), (d.Head: Card)
 
-        let takeOne (p:Player, c:Card): Player =
+        let TakeOne (p:Player, c:Card): Player =
             {p with Hand = Some c::p.Hand }
     
     module Output =
@@ -81,9 +81,11 @@ namespace Logic
 
         let DisplayCard c =
             match c with 
-            | c -> printfn "%A of %A" (Some c.Face) (Some c.Suit)
+            | c -> printfn "%A of %A" c.Face c.Suit
 
         let rec DisplayHand (h:Hand) =
-            match h.Head with
-            | Some c -> DisplayCard c; DisplayHand h.Tail
-            | None -> ignore
+            match h with 
+            | [] -> ignore
+            | _ -> match h.Head with
+                    | Some c -> DisplayCard c; DisplayHand h.Tail
+                    | None -> ignore

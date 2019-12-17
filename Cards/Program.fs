@@ -11,7 +11,7 @@ let x =
     |> LDeck.shuffle
 
 let y = 
-    Deal.dealOne x
+    Deal.DealOne x
 
 let gameState =
     {Deck = x;
@@ -29,14 +29,13 @@ let main argv =
         LPlayer.addPlayer gameState
 
     let g2 = 
-        let y = Deal.dealOne g1.Deck
-        {g1 with Deck = fst y; Dealt = Some (snd y)}
+        let y = Deal.DealOne g1.Deck
+        let z = Deal.TakeOne (g1.Players.Head, (snd y))
+        {g1 with Deck = fst y; Players = z::g1.Players}
 
-    // let g3 =
-    //     let z = Deal.takeOne (g2.Players.Head.Hand, (Some g2.Dealt))
-    //     {}
+    
 
-    //Output.DisplayHand() g2.Players.Head.Hand
+    let g4 = Output.DisplayHand g2.Players.Head.Hand
 
     printfn "%A" (g2.Players.Head.Name)
     printfn "%A" (g2.Deck.Length)
