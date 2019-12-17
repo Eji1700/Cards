@@ -23,21 +23,23 @@ let updateGameState g =
     Players = g.Players; 
     Dealt = g.Dealt}
 
+let g1 =
+    LPlayer.addPlayer gameState
+
+let g2 = 
+    let y = Deal.DealOne g1.Deck
+    let z = Deal.TakeOne (g1.Players.Head, (snd y))
+    {g1 with Deck = fst y; Players = z::g1.Players}
+
+let g3 = 
+    let y = Deal.DealOne g2.Deck
+    let z = Deal.TakeOne (g2.Players.Head, (snd y))
+    {g2 with Deck = fst y; Players = z::g2.Players}
+
 [<EntryPoint>]
 let main argv =
-    let g1 =
-        LPlayer.addPlayer gameState
+    let g4 = Output.DisplayHand g3.Players.Head.Hand
 
-    let g2 = 
-        let y = Deal.DealOne g1.Deck
-        let z = Deal.TakeOne (g1.Players.Head, (snd y))
-        {g1 with Deck = fst y; Players = z::g1.Players}
-
-    
-
-    let g4 = Output.DisplayHand g2.Players.Head.Hand
-
-    printfn "%A" (g2.Players.Head.Name)
-    printfn "%A" (g2.Deck.Length)
+    printfn "%A" (g2.Players.Length)
     Console.ReadKey() |> ignore
     0 // return an integer exit code
