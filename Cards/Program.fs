@@ -25,10 +25,14 @@ let updateGameState g =
 
 [<EntryPoint>]
 let main argv =
-    let g1 = 
-        let y = Deal.dealOne gameState.Deck
-        {Deck = fst y; Players = []; Dealt = Some (snd y)}
+    let g1 =
+        LPlayer.addPlayer gameState
 
-    printfn "%A" (g1.Deck.Length)
+    let g2 = 
+        let y = Deal.dealOne g1.Deck
+        {g1 with Deck = fst y; Dealt = Some (snd y)}
+
+    printfn "%A" (g2.Players.Head.Name)
+    printfn "%A" (g2.Deck.Length)
     Console.ReadKey() |> ignore
     0 // return an integer exit code

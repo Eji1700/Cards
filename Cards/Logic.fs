@@ -61,10 +61,7 @@ namespace Logic
             {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
         let addPlayer g =
-            let a = createPlayer()
-            let b = g.Players
-            let c = a :: b
-            {g with Players = c}
+            {g with Players = createPlayer() :: g.Players}
 
     module Deal =
         open Types.Games
