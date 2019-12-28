@@ -26,7 +26,7 @@
             Card Option List
 
         type Player =
-            {Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
+            {ID:int ;Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
 
     module Games = 
         open Cards

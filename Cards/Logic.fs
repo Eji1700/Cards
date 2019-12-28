@@ -1,4 +1,8 @@
 namespace Logic
+    module ListHelper = 
+        let updateElement key f st =
+                st |> List.map (fun (k, v) -> if k = key then k, f v else k, v)
+
     module Validate =
         open System
         let rec inputMoney() =
@@ -57,13 +61,17 @@ namespace Logic
             printfn "How much money do you have?"
             inputMoney()
 
-        let private createPlayer() =
-            {Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
+        let private createPlayer (ps:list<Player>) =
+            {ID = ps.Length + 1; Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
         let addPlayer g =
-            {g with Players = createPlayer() :: g.Players}
+            {g with Players = (createPlayer g.Players) :: g.Players}
+        
+        let updatePlayer (g:Game) (up:Player) =
+            ignore
 
     module Deal =
+        open ListHelper
         open Types.Cards
         open Types.Deck
         open Types.Players
@@ -71,9 +79,12 @@ namespace Logic
 
         let DealOne (d:Deck) =
             (d.Tail:Deck), (d.Head: Card)
-
-        let TakeOne (p:Player, c:Card): Player =
-            {p with Hand = Some c::p.Hand }
+        
+        let TakeOne (g:Game, id) =
+            {g with Players =
+                        g.Players
+                        |> List.map (fun (p) -> if p.ID = id then  {p with Hand = g.Dealt::p.Hand} else p )
+            }
     
     module Output =
         open Types.Cards
