@@ -1,16 +1,16 @@
 namespace Logic
     module ListHelper = 
-        let updateElement key f st =
+        let UpdateElement key f st =
                 st |> List.map (fun (k, v) -> if k = key then k, f v else k, v)
 
     module Validate =
         open System
-        let rec inputMoney() =
+        let rec InputMoney() =
             match (System.Decimal.TryParse(Console.ReadLine())) with
             | (true, value) -> value
             | (false, _) ->  
                 printfn "Please enter a valid amount of Money"
-                inputMoney()
+                InputMoney()
 
     module LCard =
         open Types.Cards
@@ -39,11 +39,11 @@ namespace Logic
         open Types.Deck
         open LCard
 
-        let createDeck (): Deck =
+        let CreateDeck(): Deck =
             List.allPairs faces suits 
             |> List.map create
 
-        let shuffle (deck: Deck) : Deck = 
+        let Shuffle (deck: Deck) : Deck = 
             let random = System.Random()
             deck |> List.sortBy (fun x -> random.Next())
 
@@ -59,15 +59,15 @@ namespace Logic
 
         let private setMoney() =
             printfn "How much money do you have?"
-            inputMoney()
+            InputMoney()
 
         let private createPlayer (ps:list<Player>) =
             {ID = ps.Length + 1; Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
-        let addPlayer g =
+        let AddPlayer g =
             {g with Players = (createPlayer g.Players) :: g.Players}
         
-        let updatePlayer (g:Game) (up:Player) =
+        let UpdatePlayer (g:Game) (up:Player) =
             ignore
 
     module Deal =

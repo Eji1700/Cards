@@ -4,33 +4,21 @@ open Types.Games
 
 //MAKE GAME STATE TYPE/OBJECT TO PASS TO ITSELF RECURSIVELY
 //should have players and deck/dealer?  Then it just modifies itself and passes back?
-// Could do a match on "type" of action, ex Deal
-
-
-
-// let g3 = 
-//     let y = Deal.DealOne g2.Deck
-//     let z = Deal.TakeOne (g2.Players.Head, (snd y))
-//     {g2 with Deck = fst y; Players = z::g2.Players}
+// Could do a match on "type" of action, ex Deal1
 
 [<EntryPoint>]
 let main argv =
     let x = 
-        LDeck.createDeck()
-        |> LDeck.shuffle
+        LDeck.CreateDeck()
+        |> LDeck.Shuffle
 
     let gameState =
         {Deck = x;
         Players = [];
         Dealt = None}
 
-    let updateGameState g =
-        {Deck = g.Deck; 
-        Players = g.Players; 
-        Dealt = g.Dealt}
-
     let g1 =
-        LPlayer.addPlayer gameState
+        LPlayer.AddPlayer gameState
 
     let g2 = 
         let y = Deal.DealOne g1.Deck
@@ -41,7 +29,6 @@ let main argv =
     let g3 =    
         Deal.TakeOne (g2, 1)
         
-
     //let g4 = Output.DisplayHand g2.Players.Head.Hand
 
     printfn "%A" (g2.Players.Head.Hand.Head)
