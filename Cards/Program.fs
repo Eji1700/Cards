@@ -8,30 +8,28 @@ open Types.Games
 
 [<EntryPoint>]
 let main argv =
-    let x = 
-        LDeck.CreateDeck()
-        |> LDeck.Shuffle
-
-    let gameState =
-        {Deck = x;
+    let initialGameState =
+        {Deck = LDeck.CreateDeck() |> LDeck.Shuffle;
         Players = [];
-        Dealt = None}
+        Dealt = None
+        }
 
     let g1 =
-        LPlayer.AddPlayer gameState
+        LPlayer.AddPlayer initialGameState
 
     let g2 = 
         let y = Deal.DealOne g1.Deck
         let z = (snd y)
         let x = {g1 with Deck = fst y; Dealt = (Some z)}
-        Deal.TakeOne (x, 1)
+        Deal.TakeOne 1 x
 
     let g3 =    
-        Deal.TakeOne (g2, 1)
+        Deal.TakeOne 1 g2
         
     //let g4 = Output.DisplayHand g2.Players.Head.Hand
 
     printfn "%A" (g2.Players.Head.Hand.Head)
+    printfn "%A" (g3.Players.Head.Hand.Head)
 
     Console.ReadKey() |> ignore
     0 // return an integer exit code

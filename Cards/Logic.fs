@@ -1,7 +1,7 @@
 namespace Logic
-    module ListHelper = 
-        let UpdateElement key f st =
-                st |> List.map (fun (k, v) -> if k = key then k, f v else k, v)
+    // module ListHelper = 
+    //     let UpdateElement key f st =
+    //             st |> List.map (fun (k, v) -> if k = key then k, f v else k, v)
 
     module Validate =
         open System
@@ -71,7 +71,7 @@ namespace Logic
             ignore
 
     module Deal =
-        open ListHelper
+        // open ListHelper
         open Types.Cards
         open Types.Deck
         open Types.Players
@@ -80,7 +80,7 @@ namespace Logic
         let DealOne (d:Deck) =
             (d.Tail:Deck), (d.Head: Card)
         
-        let TakeOne (g:Game, id) =
+        let TakeOne id (g:Game)  =
             {g with Players =
                         g.Players
                         |> List.map (fun (p) -> if p.ID = id then  {p with Hand = g.Dealt::p.Hand} else p )
