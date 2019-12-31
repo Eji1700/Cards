@@ -77,9 +77,11 @@ namespace Logic
         open Types.Players
         open Types.Games
 
-        let DealOne (d:Deck) =
-            (d.Tail:Deck), (d.Head: Card)
-        
+        let DealOne (g:Game) =
+            {g with 
+                Deck = (g.Deck.Tail:Deck); 
+                Dealt = (Some g.Deck.Head)}
+
         let TakeOne id (g:Game)  =
             {g with Players =
                         g.Players
