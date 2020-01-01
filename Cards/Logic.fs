@@ -62,7 +62,7 @@ namespace Logic
             InputMoney()
 
         let private createPlayer (ps:list<Player>) =
-            {ID = ps.Length + 1; Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
+            {ID = ps.Length; Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
         let AddPlayer g =
             {g with Players = (createPlayer g.Players) :: g.Players}
@@ -72,22 +72,32 @@ namespace Logic
 
     module Deal =
         // open ListHelper
-        open Types.Cards
         open Types.Deck
         open Types.Players
         open Types.Games
 
-        let DealOne (g:Game) =
-            {g with 
-                Deck = (g.Deck.Tail:Deck); 
-                Dealt = (Some g.Deck.Head)}
+        let DealOne (d:Deck)  =
+                ((d.Tail:Deck), d.Head) 
 
-        let TakeOne id (g:Game)  =
-            {g with Players =
-                        g.Players
-                        |> List.map (fun (p) -> if p.ID = id then  {p with Hand = g.Dealt::p.Hand} else p )
-            }
+        let TakeOne id c plyrs  =
+            plyrs
+            |> List.map (fun (p) -> if p.ID = id then  {p with Hand = c::p.Hand} else p )
     
+        let DealToPlayer id g =
+            let d = DealOne g.Deck
+            let c = snd d
+            (fst d, c, TakeOne id (Some c) g.Players)
+
+        let rec DealToEachPlayer plyrs =
+            ignore
+
+        // let rec DealInitalHands g =
+        //         let players = 
+        //             List.filter (fun (p) -> p.ID >= 0) g
+
+        //         let rec eachPlayer = players
+        //         x
+
     module Output =
         open Types.Cards
         open Types.Players
