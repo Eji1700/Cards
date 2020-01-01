@@ -82,14 +82,24 @@ namespace Logic
         let TakeOne id c plyrs  =
             plyrs
             |> List.map (fun (p) -> if p.ID = id then  {p with Hand = c::p.Hand} else p )
-    
-        let DealToPlayer id g =
-            let d = DealOne g.Deck
-            let c = snd d
-            (fst d, c, TakeOne id (Some c) g.Players)
 
-        let rec DealToEachPlayer plyrs =
-            ignore
+        let DealToSpecificPlayer d id plyrs =
+            let d, c = DealOne d
+            (d, (TakeOne id (Some c) plyrs))
+
+        let rec DealToAllPlayers d plyrs =
+            match plyrs with 
+            | [] -> ignore
+            | _ -> 
+                let nd, nPlyrs= DealToSpecificPlayer d plyrs.Head.ID plyrs
+                DealToAllPlayers nd nPlyrs.Tail
+
+        let x = 1
+
+        let rec dealToEachPlayer plyrs =
+            match plyrs with
+            | [] -> ignore
+            | _ -> ignore 
 
         // let rec DealInitalHands g =
         //         let players = 
