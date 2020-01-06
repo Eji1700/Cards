@@ -1,8 +1,4 @@
 namespace Logic
-    // module ListHelper = 
-    //     let UpdateElement key f st =
-    //             st |> List.map (fun (k, v) -> if k = key then k, f v else k, v)
-
     module Validate =
         open System
         let rec InputMoney() =
@@ -67,8 +63,14 @@ namespace Logic
         let AddPlayer g =
             {g with Players = (createPlayer g.Players) :: g.Players}
         
-        let UpdatePlayer (g:Game) (up:Player) =
-            ignore
+        let UpdatePlayer (plyrs:list<Player>) (newP:Player) =
+            plyrs
+            |> List.map (fun (p) -> if p.ID = newP.ID then  {p with Hand = newP.Hand} else p )
+
+        let SelectPlayer id plyrs =
+            plyrs
+            |> List.filter (fun p -> p.ID = id) 
+            |> List.head
 
     module Deal =
         // open ListHelper
@@ -76,30 +78,34 @@ namespace Logic
         open Types.Players
         open Types.Games
 
-        let DealOne (d:Deck)  =
-                ((d.Tail:Deck), d.Head) 
+        let DealToPlayer (d:Deck) p =
+            let d, c = d.Tail, d.Head
+            (d:Deck), {p with Hand = Some c::p.Hand} 
 
-        let TakeOne id c plyrs  =
-            plyrs
-            |> List.map (fun (p) -> if p.ID = id then  {p with Hand = c::p.Hand} else p )
+        // let DealOne (d:Deck)  =
+        //         ((d.Tail:Deck), d.Head) 
 
-        let DealToSpecificPlayer d id plyrs =
-            let d, c = DealOne d
-            (d, (TakeOne id (Some c) plyrs))
+        // let TakeOne id c plyrs  =
+        //     plyrs
+        //     |> List.map (fun (p) -> if p.ID = id then  {p with Hand = c::p.Hand} else p )
 
-        let rec DealToAllPlayers d plyrs =
-            match plyrs with 
-            | [] -> ignore
-            | _ -> 
-                let nd, nPlyrs= DealToSpecificPlayer d plyrs.Head.ID plyrs
-                DealToAllPlayers nd nPlyrs.Tail
+        // let DealToSpecificPlayer d id plyrs =
+        //     let d, c = DealOne d
+        //     (d, (TakeOne idS ome c) plyrs)) (
 
-        let x = 1
+        // let rec DealToAllPlayers d plyrs acc =
+        //     match plyrs with 
+        //     | [] -> ignore
+        //     | _ -> 
+        //         let nd, nPlyrs= DealToSpecificPlayer d plyrs.Head.ID plyrs
+        //         DealToAllPlayers nd nPlyrs.Tail
 
-        let rec dealToEachPlayer plyrs =
-            match plyrs with
-            | [] -> ignore
-            | _ -> ignore 
+        // let x = 1
+
+        // let rec dealToEachPlayer plyrs =
+        //     match plyrs with
+        //     | [] -> ignore
+        //     | _ -> ignore 
 
         // let rec DealInitalHands g =
         //         let players = 
@@ -116,9 +122,9 @@ namespace Logic
             match c with 
             | c -> printfn "%A of %A" c.Face c.Suit
 
-        let rec DisplayHand (h:Hand) =
-            match h with 
-            | [] -> ignore
-            | _ -> match h.Head with
-                    | Some c -> DisplayCard c; DisplayHand h.Tail
-                    | None -> ignore
+        // let rec DisplayHand (h:Hand) =
+        //     match h with 
+        //     | [] -> ignore
+        //     | _ -> match h.Head with
+        //             Some c ->  DisplayCard c;|  DisplayHand h.Tail
+        //             | None -> ignore

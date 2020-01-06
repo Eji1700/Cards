@@ -16,8 +16,8 @@ let main argv =
     let initialGameState =
         {Deck = LDeck.CreateDeck() |> LDeck.Shuffle;
         Players = [house];
-        Dealt = None
-        }
+        PlayersTurnID = 1;
+        Table = []}
 
     let g1 =
         LPlayer.AddPlayer initialGameState
@@ -26,31 +26,18 @@ let main argv =
         LPlayer.AddPlayer g1
 
     let g3 = 
-        Deal.DealToPlayer 1 g2
-    
-    let g4 = 
-        Deal.DealToPlayer 2 g3
-
-    let g5 =
-        Deal.DealToPlayer -1 g4
-    
-    let g6 = 
-        Deal.DealToPlayer 1 g5
-    
-    let g7 = 
-        Deal.DealToPlayer 2 g6
-
-    let g8 =
-        Deal.DealToPlayer -1 g7
+       let p = Deal.SelectPlayer g2.PlayersTurnID g2.Players
+       let d, p = Deal.DealToPlayer g2.Deck p 
+       {g2 with
+            Players = LPlayer.UpdatePlayer g2.Players p;
+            Deck = d}
         
     //let g4 = Output.DisplayHand g2.Players.Head.Hand
-    let a = g8.Players.Item 0
-    let b = g8.Players.Item 1
-    let c = g8.Players.Item 2
+    let a = g3.Players.Item 0
+    let b = g3.Players.Item 1
     printfn "Player %A Hand %A ID %A" a.Name a.Hand a.ID
     printfn "Player %A Hand %A ID %A" b.Name b.Hand b.ID
-    printfn "Player %A Hand %A ID %A" c.Name c.Hand c.ID
-
+    // printfn "Player %A Hand %A ID %A" c.Name c.Hand c.ID
 
     Console.ReadKey() |> ignore
     0 // return an integer exit code

@@ -36,7 +36,8 @@
         type Game = 
             {Deck: Deck;
              Players: Player list;
-              Dealt: Card Option}
+             Table: Hand;
+             PlayersTurnID:int}
         
         type Deal =
             Deck -> (Deck*Card)
