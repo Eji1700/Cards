@@ -72,47 +72,33 @@ namespace Logic
             |> List.filter (fun p -> p.ID = id) 
             |> List.head
 
+        let SelectPlayers plyrs =
+            plyrs
+            |> List.filter (fun p -> p.ID >= 0)
+
+        let SelectHouse plyrs =
+            plyrs
+            |> List.filter (fun p -> p.ID = -1)
+            |> List.head
+
     module Deal =
-        // open ListHelper
         open Types.Deck
         open Types.Players
-        open Types.Games
 
         let DealToPlayer (d:Deck) p =
             let d, c = d.Tail, d.Head
             (d:Deck), {p with Hand = Some c::p.Hand} 
 
-        // let DealOne (d:Deck)  =
-        //         ((d.Tail:Deck), d.Head) 
+        let rec DealToAll deck plyrs dealtPlayers =
+            match plyrs with
+            | [] -> (dealtPlayers, deck)
+            | player :: plyrsRest ->
+                let (newDeck, newPlayer) = DealToPlayer deck player
+                let dealtPlayers = newPlayer :: dealtPlayers
+                DealToAll newDeck plyrsRest dealtPlayers
 
-        // let TakeOne id c plyrs  =
-        //     plyrs
-        //     |> List.map (fun (p) -> if p.ID = id then  {p with Hand = c::p.Hand} else p )
-
-        // let DealToSpecificPlayer d id plyrs =
-        //     let d, c = DealOne d
-        //     (d, (TakeOne idS ome c) plyrs)) (
-
-        // let rec DealToAllPlayers d plyrs acc =
-        //     match plyrs with 
-        //     | [] -> ignore
-        //     | _ -> 
-        //         let nd, nPlyrs= DealToSpecificPlayer d plyrs.Head.ID plyrs
-        //         DealToAllPlayers nd nPlyrs.Tail
-
-        // let x = 1
-
-        // let rec dealToEachPlayer plyrs =
-        //     match plyrs with
-        //     | [] -> ignore
-        //     | _ -> ignore 
-
-        // let rec DealInitalHands g =
-        //         let players = 
-        //             List.filter (fun (p) -> p.ID >= 0) g
-
-        //         let rec eachPlayer = players
-        //         x
+        let DealInitalHand deck plyrs dealtPlayers =
+            failwith "TODO"
 
     module Output =
         open Types.Cards

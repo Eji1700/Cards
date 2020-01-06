@@ -35,11 +35,21 @@ let main argv =
        {g2 with
             Players = LPlayer.UpdatePlayer g2.Players p;
             Deck = d}
+
+    let g4 =
+        let plyrs = LPlayer.SelectPlayers g2.Players
+        let h = LPlayer.SelectHouse g2.Players
+        let nPlyrs, d = Deal.DealToAll g2.Deck plyrs []
+        {g2 with
+            Players = h::nPlyrs; 
+            Deck = d}        
         
-    let a = g3.Players.Item 0
-    let b = g3.Players.Item 1
+    let a = g4.Players.Item 0
+    let b = g4.Players.Item 1
+    let c = g4.Players.Item 2
     printfn "Player %A Hand %A ID %A" a.Name a.Hand a.ID
     printfn "Player %A Hand %A ID %A" b.Name b.Hand b.ID
+    printfn "Player %A Hand %A ID %A" c.Name c.Hand c.ID
 
     Console.ReadKey() |> ignore
     0 // return an integer exit code
