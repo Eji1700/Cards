@@ -30,23 +30,14 @@ let main argv =
         LPlayer.AddPlayer g1
 
     let g3 = 
-       let p = LPlayer.SelectPlayer g2.PlayersTurnID g2.Players
-       let d, p = Deal.DealToPlayer g2.Deck p 
-       {g2 with
-            Players = LPlayer.UpdatePlayer g2.Players p;
-            Deck = d}
-
-    let g4 =
-        let plyrs = LPlayer.SelectPlayers g2.Players
-        let h = LPlayer.SelectHouse g2.Players
-        let nPlyrs, d = Deal.DealToAll g2.Deck plyrs []
+        let d, tble = Deal.DealInitalHand g2.Deck g2.Players 2
         {g2 with
-            Players = h::nPlyrs; 
-            Deck = d}        
-        
-    let a = g4.Players.Item 0
-    let b = g4.Players.Item 1
-    let c = g4.Players.Item 2
+            Deck = d;
+            Players = tble}
+
+    let a = g3.Players.Item 0
+    let b = g3.Players.Item 1
+    let c = g3.Players.Item 2
     printfn "Player %A Hand %A ID %A" a.Name a.Hand a.ID
     printfn "Player %A Hand %A ID %A" b.Name b.Hand b.ID
     printfn "Player %A Hand %A ID %A" c.Name c.Hand c.ID

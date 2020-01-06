@@ -81,6 +81,13 @@ namespace Logic
             |> List.filter (fun p -> p.ID = -1)
             |> List.head
 
+        let SplitHousePlayers plyrs =
+            let p = plyrs
+                    |> List.filter (fun p -> p.ID >= 0) 
+            let h = plyrs
+                    |> List.filter (fun p -> p.ID = -1)
+            (p,h)
+
     module Deal =
         open Types.Deck
         open Types.Players
@@ -97,8 +104,15 @@ namespace Logic
                 let dealtPlayers = newPlayer :: dealtPlayers
                 DealToAll newDeck plyrsRest dealtPlayers
 
-        let DealInitalHand deck plyrs dealtPlayers =
-            failwith "TODO"
+        let rec DealInitalHand d tble (hndsz:int) =
+            match hndsz with
+            | 0 -> d, tble
+            | _ -> 
+            let plyrs, h = LPlayer.SplitHousePlayers tble
+            let fplyrs, nd = DealToAll d plyrs []
+            let fd, fh = DealToPlayer nd h.Head
+            let ftble = fh::fplyrs
+            DealInitalHand fd ftble (hndsz-1)
 
     module Output =
         open Types.Cards
