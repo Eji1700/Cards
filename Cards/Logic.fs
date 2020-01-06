@@ -122,9 +122,9 @@ namespace Logic
             match c with 
             | c -> printfn "%A of %A" c.Face c.Suit
 
-        // let rec DisplayHand (h:Hand) =
-        //     match h with 
-        //     | [] -> ignore
-        //     | _ -> match h.Head with
-        //             Some c ->  DisplayCard c;|  DisplayHand h.Tail
-        //             | None -> ignore
+        let rec DisplayHand (h:Hand) =
+            match h with 
+            | [] -> ignore
+            | _ -> match h.Head with
+                    Some c ->  DisplayCard c; DisplayHand h.Tail
+                    | None -> ignore
