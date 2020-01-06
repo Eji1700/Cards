@@ -40,7 +40,4 @@
              PlayersTurnID:int}
         
         type Deal =
-            Deck -> (Deck*Card)
-
-        type PickupCard = 
-            (Player*Card) -> Player
+            (Deck*Player) -> (Deck*Card)
