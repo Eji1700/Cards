@@ -22,11 +22,15 @@
     module Players =
         open Cards
 
+        type Identity =
+            | House
+            | Player of playerID : int
+
         type Hand =
-            Card Option List
+            Card List
 
         type Player =
-            {ID:int ;Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
+            {ID:Identity ;Name:string; Hand:Hand; Stack:decimal; Bet:decimal;}
 
     module Games = 
         open Cards

@@ -69,23 +69,22 @@ namespace Logic
 
         let SelectPlayer id plyrs =
             plyrs
-            |> List.filter (fun p -> p.ID = id) 
-            |> List.head
+            |> List.find (fun p -> p.ID = id)
 
         let SelectPlayers plyrs =
             plyrs
-            |> List.filter (fun p -> p.ID >= 0)
+            |> List.filter (fun p -> p.ID <> House)
 
         let SelectHouse plyrs =
             plyrs
-            |> List.filter (fun p -> p.ID = -1)
+            |> List.filter (fun p -> p.ID = House)
             |> List.head
 
         let SplitHousePlayers plyrs =
             let p = plyrs
-                    |> List.filter (fun p -> p.ID >= 0) 
+                    |> List.filter (fun p -> p.ID <> House) 
             let h = plyrs
-                    |> List.filter (fun p -> p.ID = -1)
+                    |> List.filter (fun p -> p.ID = House)
             (p,h)
 
     module Deal =
@@ -93,8 +92,9 @@ namespace Logic
         open Types.Players
 
         let DealToPlayer (d:Deck) p =
-            let d, c = d.Tail, d.Head
-            (d:Deck), {p with Hand = Some c::p.Hand} 
+            match d with 
+            | [] -> failwith "no cards left in the deck"
+            | c :: d -> (d:Deck), {p with Hand = c::p.Hand}
 
         let rec DealToAll deck plyrs dealtPlayers =
             match plyrs with
@@ -126,5 +126,4 @@ namespace Logic
             match h with 
             | [] -> ignore
             | _ -> match h.Head with
-                    Some c ->  DisplayCard c; DisplayHand h.Tail
-                    | None -> ignore
+                    c ->  DisplayCard c; DisplayHand h.Tail
