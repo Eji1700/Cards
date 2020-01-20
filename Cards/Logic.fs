@@ -58,7 +58,7 @@ namespace Logic
             InputMoney()
 
         let private createPlayer (ps:list<Player>) =
-            {ID = ps.Length; Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
+            {ID = Player ps.Length; Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
         let AddPlayer g =
             {g with Players = (createPlayer g.Players) :: g.Players}
