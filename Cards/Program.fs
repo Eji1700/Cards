@@ -11,7 +11,7 @@ open Types.Players
 let main argv =
  
     let house =
-        {ID= -1; 
+        {ID= House; 
         Name = "House"; 
         Hand = []; 
         Stack = 0m; 
