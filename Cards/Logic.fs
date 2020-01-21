@@ -55,10 +55,10 @@ namespace Logic
 
         let private setMoney() =
             printfn "How much money do you have?"
-            InputMoney()
+            InputMoney() 
 
         let private createPlayer (ps:list<Player>) =
-            {ID = ps.Length; Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
+            {ID = (1: ); Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
 
         let AddPlayer g =
             {g with Players = (createPlayer g.Players) :: g.Players}
