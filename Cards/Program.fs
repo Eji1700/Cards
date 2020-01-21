@@ -11,7 +11,7 @@ open Types.Players
 let main argv =
  
     let house =
-        {ID= Person; 
+        {ID= House; 
         Name = "House"; 
         Hand = []; 
         Stack = 0m; 
@@ -38,9 +38,9 @@ let main argv =
     let a = g3.Players.Item 0
     let b = g3.Players.Item 1
     let c = g3.Players.Item 2
-    printfn "Player %A Hand %A ID %A" a.Name a.Hand a.ID
-    printfn "Player %A Hand %A ID %A" b.Name b.Hand b.ID
-    printfn "Player %A Hand %A ID %A" c.Name c.Hand c.ID
+    printfn "Player %s \n Hand %A \n ID %A" a.Name a.Hand a.ID
+    printfn "Player %s \n Hand %A \n ID %A" b.Name b.Hand b.ID
+    printfn "Player %s \n Hand %A \n ID %A" c.Name c.Hand c.ID
 
     Console.ReadKey() |> ignore
     0 // return an integer exit code
