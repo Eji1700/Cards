@@ -127,3 +127,22 @@ namespace Logic
             | [] -> ignore
             | _ -> match h.Head with
                     c ->  DisplayCard c; DisplayHand h.Tail
+    
+    module Game =
+        open System
+        open LPlayer
+        open Types.Games
+
+        let rec MainGameLoop gameState =
+            let choice = Console.ReadKey()
+            match choice.KeyChar with 
+            | '1' ->
+                let g = AddPlayer gameState
+                let newGameState = 
+                    {gameState with 
+                        Deck = g.Deck; 
+                        Players = g.Players;
+                        Table = g.Table;
+                        PlayersTurnID = g.PlayersTurnID}
+                MainGameLoop newGameState
+            | _ ->    gameState

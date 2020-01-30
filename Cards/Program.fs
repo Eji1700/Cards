@@ -3,6 +3,7 @@ open Logic
 open Types.Games
 open Types.Players
 
+
 //MAKE GAME STATE TYPE/OBJECT TO PASS TO ITSELF RECURSIVELY
 //should have players and deck/dealer?  Then it just modifies itself and passes back?
 // Could do a match on "type" of action, ex Deal1
@@ -23,24 +24,26 @@ let main argv =
         PlayersTurnID = 1;
         Table = []}
 
-    let g1 =
-        LPlayer.AddPlayer initialGameState
 
-    let g2 =
-        LPlayer.AddPlayer g1
+    let test = Game.MainGameLoop initialGameState
+    // let g1 =
+    //     LPlayer.AddPlayer initialGameState
 
-    let g3 = 
-        let d, tble = Deal.DealInitalHand g2.Deck g2.Players 2
-        {g2 with
-            Deck = d;
-            Players = tble}
+    // let g2 =
+    //     LPlayer.AddPlayer g1
 
-    let a = g3.Players.Item 0
-    let b = g3.Players.Item 1
-    let c = g3.Players.Item 2
-    printfn "Player %s \n Hand %A \n ID %A" a.Name a.Hand a.ID
-    printfn "Player %s \n Hand %A \n ID %A" b.Name b.Hand b.ID
-    printfn "Player %s \n Hand %A \n ID %A" c.Name c.Hand c.ID
+    // let g3 = 
+    //     let d, tble = Deal.DealInitalHand g2.Deck g2.Players 2
+    //     {g2 with
+    //         Deck = d;
+    //         Players = tble}
+
+    // let a = g3.Players.Item 0
+    // let b = g3.Players.Item 1
+    // let c = g3.Players.Item 2
+    // printfn "Player %s \n Hand %A \n ID %A" a.Name a.Hand a.ID
+    // printfn "Player %s \n Hand %A \n ID %A" b.Name b.Hand b.ID
+    // printfn "Player %s \n Hand %A \n ID %A" c.Name c.Hand c.ID
 
     Console.ReadKey() |> ignore
     0 // return an integer exit code
