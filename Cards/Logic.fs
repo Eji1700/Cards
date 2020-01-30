@@ -116,6 +116,19 @@ namespace Logic
             let ftble = fh::fplyrs
             DealInitalHand fd ftble (hndsz-1)
 
+    module Input =
+        open System
+        open LPlayer
+        let rec MenuChoice f gameState =
+            let choice = Console.ReadKey(true)
+            match choice.KeyChar with
+            | '1' ->
+                f gameState
+            | _ ->
+                printfn "Please choose a valid option"
+                Console.ReadKey(true) |> ignore
+                MenuChoice f gameState
+
     module Output =
         open Types.Cards
         open Types.Players
@@ -133,30 +146,17 @@ namespace Logic
     module Game =
         open System
         open LPlayer
-        open Types.Games
+        open Input
+
+        let rec StartScreen gameState = 
+            printfn "1 - Start New Game"
+            let newGameState = gameState
+            StartScreen newGameState
 
         let rec GameAdjust gameState =
             Console.Clear()
             printfn "1 - Add Player\n2 - Remove Player\n3 - Start Game\n4 - Go Back"
-
-            let choice = Console.ReadKey(true)
-            match choice.KeyChar with
-            | '1' ->
-                let g = AddPlayer gameState
-                let newGameState = 
-                    {gameState with 
-                        Deck = g.Deck; 
-                        Players = g.Players;
-                        Table = g.Table;
-                        PlayersTurnID = g.PlayersTurnID}
-                newGameState
-            | _ ->
-                printfn "Please choose a valid option"
-                Console.ReadKey(true) |> ignore
-                GameAdjust gameState
-
-
-
+            MenuChoice AddPlayer gameState
 
         let rec MainGameLoop gameState =
             let newGameState = GameAdjust gameState
