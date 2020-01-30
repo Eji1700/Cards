@@ -50,10 +50,12 @@ namespace Logic
         open Validate
 
         let private setName() =
+            Console.Clear()
             printfn "What is your name?"
             Console.ReadLine()
 
         let private setMoney() =
+            Console.Clear()
             printfn "How much money do you have?"
             InputMoney() 
 
@@ -133,9 +135,12 @@ namespace Logic
         open LPlayer
         open Types.Games
 
-        let rec MainGameLoop gameState =
-            let choice = Console.ReadKey()
-            match choice.KeyChar with 
+        let rec GameAdjust gameState =
+            Console.Clear()
+            printfn "1 - Add Player\n2 - Remove Player\n3 - Start Game\n4 - Go Back"
+
+            let choice = Console.ReadKey(true)
+            match choice.KeyChar with
             | '1' ->
                 let g = AddPlayer gameState
                 let newGameState = 
@@ -144,5 +149,15 @@ namespace Logic
                         Players = g.Players;
                         Table = g.Table;
                         PlayersTurnID = g.PlayersTurnID}
-                MainGameLoop newGameState
-            | _ ->    gameState
+                newGameState
+            | _ ->
+                printfn "Please choose a valid option"
+                Console.ReadKey(true) |> ignore
+                GameAdjust gameState
+
+
+
+
+        let rec MainGameLoop gameState =
+            let newGameState = GameAdjust gameState
+            MainGameLoop newGameState
