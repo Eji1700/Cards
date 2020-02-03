@@ -119,15 +119,27 @@ namespace Logic
     module Input =
         open System
         open LPlayer
-        let rec MenuChoice f gameState =
+        // let rec MenuChoice f gameState =
+        //     let choice = Console.ReadKey(true)
+        //     match choice.KeyChar with
+        //     | '1' ->
+        //         f gameState
+        //     | _ ->
+        //         printfn "Please choose a valid option"
+        //         Console.ReadKey(true) |> ignore
+        //         MenuChoice f gameState
+
+        let rec getChoices lst =
+            //translates the list of menu choices from lst/dic to value/text/function
+            let x = 1
+            x
+
+        let rec MenuChoice lst gameState =
+            // should take a list/dictionary of "Key" and "function", then print, then interpret the choice.
             let choice = Console.ReadKey(true)
-            match choice.KeyChar with
-            | '1' ->
-                f gameState
-            | _ ->
-                printfn "Please choose a valid option"
-                Console.ReadKey(true) |> ignore
-                MenuChoice f gameState
+            lst
+            |> List.exists 
+
 
     module Output =
         open Types.Cards
