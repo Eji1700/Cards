@@ -22,28 +22,8 @@ let main argv =
         {Deck = LDeck.CreateDeck() |> LDeck.Shuffle;
         Players = [house];
         PlayersTurnID = 1;
-        Table = []}
-
-
-    let test = Game.MainGameLoop initialGameState
-    // let g1 =
-    //     LPlayer.AddPlayer initialGameState
-
-    // let g2 =
-    //     LPlayer.AddPlayer g1
-
-    // let g3 = 
-    //     let d, tble = Deal.DealInitalHand g2.Deck g2.Players 2
-    //     {g2 with
-    //         Deck = d;
-    //         Players = tble}
-
-    // let a = g3.Players.Item 0
-    // let b = g3.Players.Item 1
-    // let c = g3.Players.Item 2
-    // printfn "Player %s \n Hand %A \n ID %A" a.Name a.Hand a.ID
-    // printfn "Player %s \n Hand %A \n ID %A" b.Name b.Hand b.ID
-    // printfn "Player %s \n Hand %A \n ID %A" c.Name c.Hand c.ID
+        Table = [];
+        Screen = StartMenu}
 
     Console.ReadKey() |> ignore
     0 // return an integer exit code

@@ -119,11 +119,31 @@ namespace Logic
     module Input =
         open System
         open LPlayer
+        // let rec MenuChoice f gameState =
+        //     let choice = Console.ReadKey(true)
+        //     match choice.KeyChar with
+        //     | '1' ->
+        //         f gameState
+        //     | _ ->
+        //         printfn "Please choose a valid option"
+        //         Console.ReadKey(true) |> ignore
+        //         MenuChoice f gameState
+
+        // let rec getChoices lst =
+        //     //translates the list of menu choices from lst/dic to value/text/function
+        //     //Overkill.  Eventually needs to be done but in the meantime need to just get something working.
+        //     let x = 1
+        //     x
+
+        // let rec MenuChoice lst gameState =
+        //     // should take a list/dictionary of "Key" and "function", then print, then interpret the choice.
+        //     let choice = Console.ReadKey(true)
+        //     lst
+        //     |> List.exists 
 
         let rec StartMenu gameState =
             printfn "1 - Start New Game\n2 - Options\n3 - Quit"
-
-
+        
 
 
 

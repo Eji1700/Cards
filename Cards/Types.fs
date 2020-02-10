@@ -37,11 +37,17 @@
         open Deck
         open Players
 
+        type Screen =
+            | StartMenu
+            | Options
+            | AddPlayer
+
         type Game = 
             {Deck: Deck;
              Players: Player list;
              Table: Hand;
-             PlayersTurnID:int}
+             PlayersTurnID:int;
+             Screen: Screen}
         
         type Deal =
             (Deck*Player) -> (Deck*Card)
