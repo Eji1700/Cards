@@ -119,26 +119,12 @@ namespace Logic
     module Input =
         open System
         open LPlayer
-        // let rec MenuChoice f gameState =
-        //     let choice = Console.ReadKey(true)
-        //     match choice.KeyChar with
-        //     | '1' ->
-        //         f gameState
-        //     | _ ->
-        //         printfn "Please choose a valid option"
-        //         Console.ReadKey(true) |> ignore
-        //         MenuChoice f gameState
 
-        let rec getChoices lst =
-            //translates the list of menu choices from lst/dic to value/text/function
-            let x = 1
-            x
+        let rec StartMenu gameState =
+            printfn "1 - Start New Game\n2 - Options\n3 - Quit"
 
-        let rec MenuChoice lst gameState =
-            // should take a list/dictionary of "Key" and "function", then print, then interpret the choice.
-            let choice = Console.ReadKey(true)
-            lst
-            |> List.exists 
+
+
 
 
     module Output =
@@ -161,14 +147,13 @@ namespace Logic
         open Input
 
         let rec StartScreen gameState = 
-            printfn "1 - Start New Game"
-            let newGameState = gameState
+            let newGameState = StartMenu gameState
             StartScreen newGameState
 
         let rec GameAdjust gameState =
             Console.Clear()
             printfn "1 - Add Player\n2 - Remove Player\n3 - Start Game\n4 - Go Back"
-            MenuChoice AddPlayer gameState
+            //MenuChoice AddPlayer gameState //FOR DYNAMIC MENU
 
         let rec MainGameLoop gameState =
             let newGameState = GameAdjust gameState
