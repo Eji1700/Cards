@@ -40,7 +40,7 @@
         type State =
             | Start
             | Options
-            | Add
+            | AddPlayer
             | NewGame
             | Quit
 
