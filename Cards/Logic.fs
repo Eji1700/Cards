@@ -146,9 +146,15 @@ namespace Logic
             printfn "1 - Start New Game\n2 - Options\n3 - Quit"
             let choice = Console.ReadKey(true)
             match choice.KeyChar with
-            | '1' -> {gameState with State = NewGame}
-            | '2' -> {gameState with State = Options}
-            | '3' -> {gameState with State = Quit}
+            | '1' -> 
+                Console.Clear()
+                {gameState with State = NewGame}
+            | '2' -> 
+                Console.Clear()
+                {gameState with State = Options}
+            | '3' -> 
+                Console.Clear()
+                {gameState with State = Quit}
             | _ ->
                 printfn "Please choose a valid option"
                 Console.ReadKey(true) |> ignore
@@ -159,7 +165,9 @@ namespace Logic
             printfn "There are currently no options, press 1 to go back"
             let choice = Console.ReadKey(true)
             match choice.KeyChar with   
-                | '1' -> {gameState with State = Start}
+                | '1' -> 
+                    Console.Clear()
+                    {gameState with State = Start}
                 | _ ->
                     printfn "Please choose a valid option"
                     Console.ReadKey(true) |> ignore
