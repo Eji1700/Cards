@@ -23,7 +23,7 @@ let main argv =
         Players = [house];
         PlayersTurnID = 1;
         Table = [];
-        Screen = StartMenu}
+        State = Start}
 
     Console.ReadKey() |> ignore
     0 // return an integer exit code

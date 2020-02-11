@@ -118,6 +118,7 @@ namespace Logic
 
     module Input =
         open System
+        open Types.Games
         open LPlayer
         // let rec MenuChoice f gameState =
         //     let choice = Console.ReadKey(true)
@@ -143,9 +144,15 @@ namespace Logic
 
         let rec StartMenu gameState =
             printfn "1 - Start New Game\n2 - Options\n3 - Quit"
-        
-
-
+            let choice = Console.ReadKey(true)
+            match choice.KeyChar with
+            | '1' -> {gameState with State = NewGame}
+            | '2' -> {gameState with State = Options}
+            | '3' -> {gameState with State = Quit}
+            | _ ->
+                printfn "Please choose a valid option"
+                Console.ReadKey(true) |> ignore
+                StartMenu gameState
 
     module Output =
         open Types.Cards
