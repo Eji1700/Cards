@@ -155,6 +155,17 @@ namespace Logic
                 Console.Clear()
                 StartMenu gameState
 
+        let rec OptionMenu gameState =
+            printfn "There are currently no options, press 1 to go back"
+            let choice = Console.ReadKey(true)
+            match choice.KeyChar with   
+                | '1' -> {gameState with State = Start}
+                | _ ->
+                    printfn "Please choose a valid option"
+                    Console.ReadKey(true) |> ignore
+                    Console.Clear()
+                    OptionMenu gameState
+
     module Output =
         open Types.Cards
         open Types.Players
@@ -179,5 +190,12 @@ namespace Logic
             match gameState.State with
             | Start -> 
                 let newGameState = (StartMenu gameState)
+                MainGameLoop newGameState
+            | Options -> 
+                Console.Clear()
+                printfn "There are currently no options."
+                Console.ReadKey(true) |> ignore
+                Console.Clear()
+                let newGameState = {gameState with State = Start}
                 MainGameLoop newGameState
             | _ -> gameState
