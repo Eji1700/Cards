@@ -192,10 +192,6 @@ namespace Logic
                 let newGameState = (StartMenu gameState)
                 MainGameLoop newGameState
             | Options -> 
-                Console.Clear()
-                printfn "There are currently no options."
-                Console.ReadKey(true) |> ignore
-                Console.Clear()
-                let newGameState = {gameState with State = Start}
+                let newGameState = (OptionMenu gameState)
                 MainGameLoop newGameState
             | _ -> gameState
