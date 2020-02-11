@@ -152,6 +152,7 @@ namespace Logic
             | _ ->
                 printfn "Please choose a valid option"
                 Console.ReadKey(true) |> ignore
+                Console.Clear()
                 StartMenu gameState
 
     module Output =
@@ -172,16 +173,11 @@ namespace Logic
         open System
         open LPlayer
         open Input
-
-        let rec StartScreen gameState = 
-            let newGameState = StartMenu gameState
-            StartScreen newGameState
-
-        let rec GameAdjust gameState =
-            Console.Clear()
-            printfn "1 - Add Player\n2 - Remove Player\n3 - Start Game\n4 - Go Back"
-            //MenuChoice AddPlayer gameState //FOR DYNAMIC MENU
+        open Types.Games
 
         let rec MainGameLoop gameState =
-            let newGameState = GameAdjust gameState
-            MainGameLoop newGameState
+            match gameState.State with
+            | Start -> 
+                let newGameState = (StartMenu gameState)
+                MainGameLoop newGameState
+            | _ -> gameState

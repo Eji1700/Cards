@@ -25,5 +25,7 @@ let main argv =
         Table = [];
         State = Start}
 
+    Game.MainGameLoop initialGameState
+
     Console.ReadKey() |> ignore
     0 // return an integer exit code
