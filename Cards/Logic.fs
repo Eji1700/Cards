@@ -143,7 +143,10 @@ namespace Logic
         //     |> List.exists 
 
         let rec StartMenu gameState =
-            printfn "1 - Start New Game\n2 - Options\n3 - Quit"
+            printfn "1 - Start New Game\n
+                    2 - Add Player\n
+                    o - Options\n
+                    q - Quit"
             let choice = Console.ReadKey(true)
             match choice.KeyChar with
             | '1' -> 
@@ -151,8 +154,11 @@ namespace Logic
                 {gameState with State = NewGame}
             | '2' -> 
                 Console.Clear()
+                {gameState with State = AddAPlayer}
+            | 'o' -> 
+                Console.Clear()
                 {gameState with State = Options}
-            | '3' -> 
+            | 'q' -> 
                 Console.Clear()
                 {gameState with State = Quit}
             | _ ->
@@ -193,13 +199,24 @@ namespace Logic
         open LPlayer
         open Input
         open Types.Games
+        open Deal
 
         let rec MainGameLoop gameState =
             match gameState.State with
             | Start -> 
-                let newGameState = (StartMenu gameState)
+                let newGameState = StartMenu gameState
                 MainGameLoop newGameState
             | Options -> 
-                let newGameState = (OptionMenu gameState)
+                let newGameState = OptionMenu gameState
                 MainGameLoop newGameState
+            | AddAPlayer ->
+                let g = AddPlayer gameState
+                let newGameState = {g with State = Start}
+                MainGameLoop newGameState
+            | NewGame ->
+                let (deck, p)  = DealInitalHand gameState.Deck gameState.Players 2
+                let newGameState = {gameState with Deck = deck; Players = p}
+                printfn "%A" newGameState.Players
+                printfn "%A" newGameState.Deck.Length
+                newGameState
             | _ -> gameState
