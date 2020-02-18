@@ -190,6 +190,8 @@ namespace Logic
     module Output =
         open Types.Cards
         open Types.Players
+        open Types.Games
+        open LPlayer
 
         let DisplayCard c =
             match c with 
@@ -199,8 +201,24 @@ namespace Logic
             match h with 
             | [] -> ignore
             | _ -> match h.Head with
-                    c ->  DisplayCard c; DisplayHand h.Tail
-    
+                    c ->  DisplayCard c
+                          printf " and a "
+                          DisplayHand h.Tail
+
+        let DisplayDealer g =
+            let dealer = SelectHouse g.Players
+            DisplayHand dealer.Hand 
+        // uhh not sure if needed.  Want to figure out where to put
+        // "<PlayerName> shows a"
+        // Then DisplayCard then, then "and a", then DisplayCard again.
+        // let rec DisplayHand2 (p:Player) =
+        //     match p.Hand with 
+        //     | [] -> ignore
+        //     | _ -> match p.Hand.Head with
+        //             c ->  DisplayCard c
+        //                   let newP = {p with Hand = p.Hand.Tail}
+        //                   DisplayHand2 newP
+
     module Game =
         open System
         open LPlayer
