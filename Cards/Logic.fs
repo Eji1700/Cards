@@ -143,9 +143,10 @@ namespace Logic
         //     |> List.exists 
 
         let rec StartMenu gameState =
-            printfn "1 - Start New Game\n
-                    2 - Add Player\n
-                    o - Options\n
+            Console.Clear()
+            printfn "1 - Start New Game\n\
+                    2 - Add Player\n\
+                    o - Options\n\
                     q - Quit"
             let choice = Console.ReadKey(true)
             match choice.KeyChar with
@@ -168,6 +169,7 @@ namespace Logic
                 StartMenu gameState
 
         let rec OptionMenu gameState =
+            Console.Clear()
             printfn "There are currently no options, press 1 to go back"
             let choice = Console.ReadKey(true)
             match choice.KeyChar with   
@@ -179,6 +181,11 @@ namespace Logic
                     Console.ReadKey(true) |> ignore
                     Console.Clear()
                     OptionMenu gameState
+        
+        let QuitGame() =
+            Console.Clear()
+            printfn "Thank you for playing"
+            Console.ReadKey(true)
 
     module Output =
         open Types.Cards
@@ -214,9 +221,20 @@ namespace Logic
                 let newGameState = {g with State = Start}
                 MainGameLoop newGameState
             | NewGame ->
-                let (deck, p)  = DealInitalHand gameState.Deck gameState.Players 2
-                let newGameState = {gameState with Deck = deck; Players = p}
-                printfn "%A" newGameState.Players
-                printfn "%A" newGameState.Deck.Length
-                newGameState
+                let plyrs = SelectPlayers(gameState.Players).Length
+                if plyrs < 1 then
+                    Console.Clear()
+                    printfn "Add at least one player"
+                    Console.ReadKey(true) |> ignore
+                    let newGameState = {gameState with State = Start}
+                    MainGameLoop newGameState
+                else
+                    let (deck, p)  = DealInitalHand gameState.Deck gameState.Players 2
+                    let newGameState = {gameState with Deck = deck; Players = p}
+                    printfn "%A" newGameState.Players
+                    printfn "%A" newGameState.Deck.Length
+                    newGameState
+            | Quit ->
+                QuitGame() |> ignore
+                gameState
             | _ -> gameState
