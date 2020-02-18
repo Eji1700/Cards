@@ -202,12 +202,12 @@ namespace Logic
             | [] -> ignore
             | _ -> match h.Head with
                     c ->  DisplayCard c
-                          printf " and a "
+                          if h.Tail <> [] then printf " and a "
                           DisplayHand h.Tail
 
         let DisplayDealer g =
             let dealer = SelectHouse g.Players
-            DisplayHand dealer.Hand 
+            DisplayHand dealer.Hand.Tail 
         // uhh not sure if needed.  Want to figure out where to put
         // "<PlayerName> shows a"
         // Then DisplayCard then, then "and a", then DisplayCard again.
@@ -225,6 +225,7 @@ namespace Logic
         open Input
         open Types.Games
         open Deal
+        open Output
 
         let rec MainGameLoop gameState =
             match gameState.State with
@@ -249,8 +250,10 @@ namespace Logic
                 else
                     let (deck, p)  = DealInitalHand gameState.Deck gameState.Players 2
                     let newGameState = {gameState with Deck = deck; Players = p}
-                    printfn "%A" newGameState.Players
-                    printfn "%A" newGameState.Deck.Length
+                    printfn "Dealer shows a"
+                    DisplayDealer newGameState |> ignore
+                    // printfn "%A" newGameState.Players
+                    // printfn "%A" newGameState.Deck.Length
                     newGameState
             | Quit ->
                 QuitGame() |> ignore
