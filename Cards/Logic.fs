@@ -195,7 +195,7 @@ namespace Logic
 
         let DisplayCard c =
             match c with 
-            | c -> printfn "%A of %A" c.Face c.Suit
+            | c -> printf "%A of %A" c.Face c.Suit
 
         let rec DisplayHand (h:Hand) =
             match h with 
@@ -250,8 +250,12 @@ namespace Logic
                 else
                     let (deck, p)  = DealInitalHand gameState.Deck gameState.Players 2
                     let newGameState = {gameState with Deck = deck; Players = p}
-                    printfn "Dealer shows a"
+                    Console.Clear()
+                    printf "\nDealer shows a "
                     DisplayDealer newGameState |> ignore
+                    let plyrs = SelectPlayers newGameState.Players
+                    printf "\n%s has a " plyrs.Head.Name
+                    DisplayHand plyrs.Head.Hand |> ignore
                     // printfn "%A" newGameState.Players
                     // printfn "%A" newGameState.Deck.Length
                     newGameState
