@@ -148,18 +148,18 @@ namespace Logic
                     2 - Add Player\n\
                     o - Options\n\
                     q - Quit"
-            let choice = Console.ReadKey(true)
-            match choice.KeyChar with
-            | '1' -> 
+            let choice = Console.ReadKey(true).KeyChar.ToString()
+            match choice.ToLower() with
+            | "1" -> 
                 Console.Clear()
                 {gameState with State = NewGame}
-            | '2' -> 
+            | "2" -> 
                 Console.Clear()
                 {gameState with State = AddAPlayer}
-            | 'o' -> 
+            | "O" -> 
                 Console.Clear()
                 {gameState with State = Options}
-            | 'q' -> 
+            | "Q" -> 
                 Console.Clear()
                 {gameState with State = Quit}
             | _ ->
