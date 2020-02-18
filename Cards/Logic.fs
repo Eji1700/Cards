@@ -146,8 +146,8 @@ namespace Logic
             Console.Clear()
             printfn "1 - Start New Game\n\
                     2 - Add Player\n\
-                    o - Options\n\
-                    q - Quit"
+                    O - Options\n\
+                    Q - Quit"
             let choice = Console.ReadKey(true).KeyChar.ToString()
             match choice.ToLower() with
             | "1" -> 
@@ -156,10 +156,10 @@ namespace Logic
             | "2" -> 
                 Console.Clear()
                 {gameState with State = AddAPlayer}
-            | "O" -> 
+            | "o" -> 
                 Console.Clear()
                 {gameState with State = Options}
-            | "Q" -> 
+            | "q" -> 
                 Console.Clear()
                 {gameState with State = Quit}
             | _ ->
