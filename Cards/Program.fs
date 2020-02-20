@@ -23,6 +23,6 @@ let main argv =
         Table = [];
         State = Start}
 
-    Game.MainGameLoop initialGameState |> ignore
+    Game.MainGameLoop initialGameState |> ignore 
     Console.ReadKey() |> ignore
     0 // return an integer exit code
