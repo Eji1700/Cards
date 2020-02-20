@@ -107,7 +107,7 @@ namespace Logic
                 let dealtPlayers = newPlayer :: dealtPlayers
                 DealToAll newDeck plyrsRest dealtPlayers
 
-        let rec DealInitalHand gameState (hndsz:int) =
+        let rec DealInitalHand gameState hndsz =
             match hndsz with
             | 0 -> gameState
             | _ -> 
@@ -250,19 +250,15 @@ namespace Logic
                     let newGameState = {gameState with State = Start}
                     MainGameLoop newGameState
                 else
-                    let (deck, p)  = DealInitalHand gameState.Deck gameState.Players 2
-                    let newGameState = {gameState with Deck = deck; Players = p}
+                    let initalHand  = DealInitalHand gameState 2
+                    let newGameState = {gameState with Deck = initalHand.Deck; Players = initalHand.Players}
                     Console.Clear()
                     printf "\nDealer shows a "
                     DisplayDealer newGameState |> ignore
                     let plyrs = SelectPlayers newGameState.Players
                     printf "\n%s has a " plyrs.Head.Name
                     DisplayHand plyrs.Head.Hand |> ignore
-                    // printfn "%A" newGameState.Players
-                    // printfn "%A" newGameState.Deck.Length
                     newGameState
             | Quit ->
                 QuitGame() |> ignore
                 gameState
-            | _ -> gameState
-           
