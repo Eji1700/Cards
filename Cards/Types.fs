@@ -48,7 +48,7 @@
             {Deck: Deck;
              Players: Player list;
              Table: Hand;
-             PlayersTurnID:int;
+             PlayersTurnID:Identity;
              State: State}
         
         type Deal =

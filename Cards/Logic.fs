@@ -217,8 +217,5 @@ namespace Logic
                 MainGameLoop newGameState
             | NewGame ->
                 let newGameState = DealInitalHand gameState
-                printfn "%A" newGameState
-                printfn "%A" newGameState
-                gameState
-                //newGameState
+                newGameState
             | _ -> gameState
