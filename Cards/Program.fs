@@ -3,8 +3,6 @@ open Logic
 open Types.Games
 open Types.Players
 
-//MAKE GAME STATE TYPE/OBJECT TO PASS TO ITSELF RECURSIVELY
-//should have players and deck/dealer?  Then it just modifies itself and passes back?
 // Could do a match on "type" of action, ex Deal1
 
 [<EntryPoint>]

@@ -145,22 +145,23 @@ namespace Logic
         //     |> List.exists 
 
         let rec StartMenu gameState =
-            printfn "1 - Start New Game\n
-                    2 - Add Player\n
-                    o - Options\n
-                    q - Quit"
-            let choice = Console.ReadKey(true)
-            match choice.KeyChar with
-            | '1' -> 
+            Console.Clear()
+            printfn "1 - Start New Game\n\
+                    2 - Add Player\n\
+                    O - Options\n\
+                    Q - Quit"
+            let choice = Console.ReadKey(true).KeyChar.ToString()
+            match choice.ToLower() with
+            | "1" -> 
                 Console.Clear()
                 {gameState with State = NewGame}
-            | '2' -> 
+            | "2" -> 
                 Console.Clear()
                 {gameState with State = AddAPlayer}
-            | 'o' -> 
+            | "o" -> 
                 Console.Clear()
                 {gameState with State = Options}
-            | 'q' -> 
+            | "q" -> 
                 Console.Clear()
                 {gameState with State = Quit}
             | _ ->
@@ -170,6 +171,7 @@ namespace Logic
                 StartMenu gameState
 
         let rec OptionMenu gameState =
+            Console.Clear()
             printfn "There are currently no options, press 1 to go back"
             let choice = Console.ReadKey(true)
             match choice.KeyChar with   
@@ -181,27 +183,51 @@ namespace Logic
                     Console.ReadKey(true) |> ignore
                     Console.Clear()
                     OptionMenu gameState
+        
+        let QuitGame() =
+            Console.Clear()
+            printfn "Thank you for playing"
+            Console.ReadKey(true)
 
     module Output =
         open Types.Cards
         open Types.Players
+        open Types.Games
+        open LPlayer
 
         let DisplayCard c =
             match c with 
-            | c -> printfn "%A of %A" c.Face c.Suit
+            | c -> printf "%A of %A" c.Face c.Suit
 
         let rec DisplayHand (h:Hand) =
             match h with 
             | [] -> ignore
             | _ -> match h.Head with
-                    c ->  DisplayCard c; DisplayHand h.Tail
-    
+                    c ->  DisplayCard c
+                          if h.Tail <> [] then printf " and a "
+                          DisplayHand h.Tail
+
+        let DisplayDealer g =
+            let dealer = SelectHouse g.Players
+            DisplayHand dealer.Hand.Tail 
+        // uhh not sure if needed.  Want to figure out where to put
+        // "<PlayerName> shows a"
+        // Then DisplayCard then, then "and a", then DisplayCard again.
+        // let rec DisplayHand2 (p:Player) =
+        //     match p.Hand with 
+        //     | [] -> ignore
+        //     | _ -> match p.Hand.Head with
+        //             c ->  DisplayCard c
+        //                   let newP = {p with Hand = p.Hand.Tail}
+        //                   DisplayHand2 newP
+
     module Game =
         open System
         open LPlayer
         open Input
         open Types.Games
         open Deal
+        open Output
 
         let rec MainGameLoop gameState =
             match gameState.State with
@@ -216,6 +242,27 @@ namespace Logic
                 let newGameState = {g with State = Start}
                 MainGameLoop newGameState
             | NewGame ->
-                let newGameState = DealInitalHand gameState
-                newGameState
+                let plyrs = SelectPlayers(gameState.Players).Length
+                if plyrs < 1 then
+                    Console.Clear()
+                    printfn "Add at least one player"
+                    Console.ReadKey(true) |> ignore
+                    let newGameState = {gameState with State = Start}
+                    MainGameLoop newGameState
+                else
+                    let (deck, p)  = DealInitalHand gameState.Deck gameState.Players 2
+                    let newGameState = {gameState with Deck = deck; Players = p}
+                    Console.Clear()
+                    printf "\nDealer shows a "
+                    DisplayDealer newGameState |> ignore
+                    let plyrs = SelectPlayers newGameState.Players
+                    printf "\n%s has a " plyrs.Head.Name
+                    DisplayHand plyrs.Head.Hand |> ignore
+                    // printfn "%A" newGameState.Players
+                    // printfn "%A" newGameState.Deck.Length
+                    newGameState
+            | Quit ->
+                QuitGame() |> ignore
+                gameState
             | _ -> gameState
+           
