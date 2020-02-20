@@ -107,17 +107,7 @@ namespace Logic
                 let dealtPlayers = newPlayer :: dealtPlayers
                 DealToAll newDeck plyrsRest dealtPlayers
 
-        let rec DealInitalHand d tble (hndsz:int) =
-            match hndsz with
-            | 0 -> d, tble
-            | _ -> 
-            let plyrs, h = LPlayer.SplitHousePlayers tble
-            let fplyrs, nd = DealToAll d plyrs []
-            let fd, fh = DealToPlayer nd h.Head
-            let ftble = fh::fplyrs
-            DealInitalHand fd ftble (hndsz-1)
-
-        let rec DealInitalHand2 gameState (hndsz:int) =
+        let rec DealInitalHand gameState (hndsz:int) =
             match hndsz with
             | 0 -> gameState
             | _ -> 
@@ -126,7 +116,7 @@ namespace Logic
                 let fd, fh = DealToPlayer nd h.Head
                 let ftble = fh::fplyrs
                 let newGameState = {gameState with Deck = fd; Players = ftble}
-                DealInitalHand2 newGameState (hndsz-1)  
+                DealInitalHand newGameState (hndsz-1)  
 
     module Input =
         open System
@@ -226,7 +216,7 @@ namespace Logic
                 let newGameState = {g with State = Start}
                 MainGameLoop newGameState
             | NewGame ->
-                let newGameState = DealInitalHand2 gameState
+                let newGameState = DealInitalHand gameState
                 printfn "%A" newGameState
                 printfn "%A" newGameState
                 gameState
