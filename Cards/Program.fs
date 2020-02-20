@@ -17,7 +17,7 @@ let main argv =
     let initialGameState =
         {Deck = LDeck.CreateDeck() |> LDeck.Shuffle;
         Players = [house];
-        PlayersTurnID = 1;
+        PlayersTurnID = Player 1;
         Table = [];
         State = Start}
 

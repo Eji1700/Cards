@@ -93,6 +93,7 @@ namespace Logic
         open Types.Deck
         open Types.Players
         open Types.Games
+        open LPlayer
 
         let DealToPlayer (d:Deck) p =
             match d with 
@@ -115,7 +116,13 @@ namespace Logic
                 let fplyrs, nd = DealToAll gameState.Deck plyrs []
                 let fd, fh = DealToPlayer nd h.Head
                 let ftble = fh::fplyrs
-                let newGameState = {gameState with Deck = fd; Players = ftble}
+                let minPlayer =
+                    SelectPlayers gameState.Players
+                    |> List.minBy (fun p -> p.ID)
+                let newGameState = {gameState with 
+                                        Deck = fd; 
+                                        Players = ftble;
+                                        PlayersTurnID = minPlayer.ID}
                 DealInitalHand newGameState (hndsz-1)  
 
     module Input =
@@ -194,6 +201,7 @@ namespace Logic
         open Types.Players
         open Types.Games
         open LPlayer
+        open System
 
         let DisplayCard c =
             match c with 
@@ -208,6 +216,8 @@ namespace Logic
                           DisplayHand h.Tail
 
         let DisplayDealer g =
+            Console.Clear()
+            printf "Dealer shows a "
             let dealer = SelectHouse g.Players
             DisplayHand dealer.Hand.Tail 
         // uhh not sure if needed.  Want to figure out where to put
@@ -250,15 +260,15 @@ namespace Logic
                     let newGameState = {gameState with State = Start}
                     MainGameLoop newGameState
                 else
-                    let initalHand  = DealInitalHand gameState 2
-                    let newGameState = {gameState with Deck = initalHand.Deck; Players = initalHand.Players}
-                    Console.Clear()
-                    printf "\nDealer shows a "
+                    let newGameState  = DealInitalHand gameState 2
                     DisplayDealer newGameState |> ignore
-                    let plyrs = SelectPlayers newGameState.Players
-                    printf "\n%s has a " plyrs.Head.Name
-                    DisplayHand plyrs.Head.Hand |> ignore
+                    let currentPlyr = SelectPlayer newGameState.PlayersTurnID newGameState.Players
+                    printf "\n%s has a " currentPlyr.Name
+                    DisplayHand currentPlyr.Hand |> ignore
                     newGameState
             | Quit ->
+                QuitGame() |> ignore
+                gameState
+            | _ -> 
                 QuitGame() |> ignore
                 gameState

@@ -42,6 +42,8 @@
             | Options
             | AddAPlayer
             | NewGame
+            | PlayerTurn
+            | HouseTurn
             | Quit
 
         type Game = 
