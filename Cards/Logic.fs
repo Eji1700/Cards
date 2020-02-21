@@ -215,21 +215,23 @@ namespace Logic
                           if h.Tail <> [] then printf " and a "
                           DisplayHand h.Tail
 
+        let rec DisplayHand2 (p:Player) =
+            match p.Hand with 
+            | [] -> ignore
+            | _ -> match p.Hand.Head with
+                    c ->  DisplayCard c
+                          if p.Hand.Tail <> [] then printf " and a "
+                          DisplayHand2 {p with Hand = p.Hand.Tail}
+
         let DisplayDealer g =
             Console.Clear()
             printf "Dealer shows a "
             let dealer = SelectHouse g.Players
             DisplayHand dealer.Hand.Tail 
-        // uhh not sure if needed.  Want to figure out where to put
-        // "<PlayerName> shows a"
-        // Then DisplayCard then, then "and a", then DisplayCard again.
-        // let rec DisplayHand2 (p:Player) =
-        //     match p.Hand with 
-        //     | [] -> ignore
-        //     | _ -> match p.Hand.Head with
-        //             c ->  DisplayCard c
-        //                   let newP = {p with Hand = p.Hand.Tail}
-        //                   DisplayHand2 newP
+
+        let DisplayPlayers g =
+            let plyrs = SelectPlayers g
+            List.map DisplayHand2 plyrs
 
     module Game =
         open System
@@ -266,9 +268,12 @@ namespace Logic
                     printf "\n%s has a " currentPlyr.Name
                     DisplayHand currentPlyr.Hand |> ignore
                     newGameState
-            | Quit ->
+            | PlayerTurn ->
                 QuitGame() |> ignore
                 gameState
-            | _ -> 
+            | HouseTurn ->
+                QuitGame() |> ignore
+                gameState
+            | Quit ->
                 QuitGame() |> ignore
                 gameState
