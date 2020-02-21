@@ -209,29 +209,29 @@ namespace Logic
 
         let rec DisplayHand (h:Hand) =
             match h with 
-            | [] -> ignore
+            | [] -> printf "\n"
             | _ -> match h.Head with
                     c ->  DisplayCard c
                           if h.Tail <> [] then printf " and a "
                           DisplayHand h.Tail
 
-        let rec DisplayHand2 (p:Player) =
-            match p.Hand with 
-            | [] -> ignore
-            | _ -> match p.Hand.Head with
-                    c ->  DisplayCard c
-                          if p.Hand.Tail <> [] then printf " and a "
-                          DisplayHand2 {p with Hand = p.Hand.Tail}
-
         let DisplayDealer g =
-            Console.Clear()
             printf "Dealer shows a "
             let dealer = SelectHouse g.Players
             DisplayHand dealer.Hand.Tail 
 
+        let rec DisplayPlayersHand (plyrs:List<Player>) =
+            match plyrs with
+            | [] -> printf "\n"
+            | _->
+                let p = plyrs.Head
+                printf"\n%s shows a " p.Name
+                DisplayHand p.Hand |> ignore
+                DisplayPlayersHand plyrs.Tail
+
         let DisplayPlayers g =
-            let plyrs = SelectPlayers g
-            List.map DisplayHand2 plyrs
+            let plyrs = SelectPlayers g.Players
+            DisplayPlayersHand plyrs
 
     module Game =
         open System
@@ -263,10 +263,9 @@ namespace Logic
                     MainGameLoop newGameState
                 else
                     let newGameState  = DealInitalHand gameState 2
+                    Console.Clear()
+                    DisplayPlayers newGameState |> ignore
                     DisplayDealer newGameState |> ignore
-                    let currentPlyr = SelectPlayer newGameState.PlayersTurnID newGameState.Players
-                    printf "\n%s has a " currentPlyr.Name
-                    DisplayHand currentPlyr.Hand |> ignore
                     newGameState
             | PlayerTurn ->
                 QuitGame() |> ignore
