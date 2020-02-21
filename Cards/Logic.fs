@@ -112,18 +112,25 @@ namespace Logic
             match hndsz with
             | 0 -> gameState
             | _ -> 
-                let plyrs, h = LPlayer.SplitHousePlayers gameState.Players
-                let fplyrs, nd = DealToAll gameState.Deck plyrs []
-                let fd, fh = DealToPlayer nd h.Head
-                let ftble = fh::fplyrs
-                let minPlayer =
-                    SelectPlayers gameState.Players
-                    |> List.minBy (fun p -> p.ID)
+                let plyrs, house = SplitHousePlayers gameState.Players
+                let finalPlyrs, nd = DealToAll gameState.Deck plyrs []
+                let finalDeck, finalHouse = DealToPlayer nd house.Head
+                let finalTble = finalHouse::finalPlyrs
+                
                 let newGameState = {gameState with 
-                                        Deck = fd; 
-                                        Players = ftble;
-                                        PlayersTurnID = minPlayer.ID}
+                                        Deck = finalDeck; 
+                                        Players = finalTble;}
                 DealInitalHand newGameState (hndsz-1)  
+
+        let SetupGame gameState hndsz =
+            let newGameState = DealInitalHand gameState hndsz
+            let minPlayer =
+                    SelectPlayers newGameState.Players
+                    |> List.minBy (fun p -> p.ID)
+            {newGameState with
+                PlayersTurnID = minPlayer.ID;
+                State = PlayerTurn}
+            
 
     module Input =
         open System
@@ -262,7 +269,7 @@ namespace Logic
                     let newGameState = {gameState with State = Start}
                     MainGameLoop newGameState
                 else
-                    let newGameState  = DealInitalHand gameState 2
+                    let newGameState  = SetupGame gameState 2
                     Console.Clear()
                     DisplayPlayers newGameState |> ignore
                     DisplayDealer newGameState |> ignore
