@@ -1,7 +1,7 @@
 namespace Logic
     module Validate =
         open System
-        let rec InputMoney() =
+        let rec InputMoney() = //not used during testing
             match (System.Decimal.TryParse(Console.ReadLine())) with
             | (true, value) -> value
             | (false, _) ->  
@@ -15,15 +15,17 @@ namespace Logic
             [Spades; Hearts; Clubs; Diamonds]
 
         let faces =
-            [ Two ; Three ; Four ; Five ; Six ; Seven
-            ; Eight ; Nine ; Ten ; Jack ; Queen ; King ; Ace]
+            [ Two; Three; Four;
+            Five; Six; Seven;
+            Eight; Nine; Ten;
+            Jack; Queen; King; Ace]
         
-        let (|Red|Black|) suit =
+        let (|Red|Black|) suit = //unused, maybe for other games
             match suit with
             | Diamonds | Hearts -> Red
             | Clubs | Spades -> Black
 
-        let printcolor c =
+        let printcolor c = //ditto
             match c with
             | Red -> "Red"
             | Black -> "Black"
@@ -54,7 +56,7 @@ namespace Logic
             printfn "What is your name?"
             Console.ReadLine()
 
-        let private setMoney() =
+        let private setMoney() = //unused for now
             Console.Clear()
             printfn "How much money do you have?"
             InputMoney() 
@@ -63,18 +65,20 @@ namespace Logic
             {ID = (Player ps.Length ); 
             Name = setName(); 
             Hand = []; 
-            //Stack = setMoney();
+            //Stack = setMoney(); Commented out while testing.
             Stack = 100m; 
             Bet = 0m}
 
         let AddPlayer g =
-            {g with Players = (createPlayer g.Players) :: g.Players}
+            {g with Players = 
+                    (createPlayer g.Players) :: g.Players}
         
-        let UpdatePlayer (plyrs:list<Player>) (newP:Player) =
-            plyrs
-            |> List.map (fun (p) -> if p.ID = newP.ID then  
-                                        {p with Hand = newP.Hand} 
-                                    else p )
+        // Maybe not needed at all or maybe should be used more?
+        // let UpdatePlayer (plyrs:list<Player>) (newP:Player) =
+        //     plyrs
+        //     |> List.map (fun (p) -> if p.ID = newP.ID then  
+        //                                 {p with Hand = newP.Hand} 
+        //                             else p )
 
         let SelectPlayer id plyrs =
             plyrs
@@ -94,6 +98,7 @@ namespace Logic
                     |> List.filter (fun p -> p.ID <> House) 
             let h = plyrs
                     |> List.filter (fun p -> p.ID = House)
+                    |> List.head
             (p,h)
 
     module Deal =
@@ -116,17 +121,18 @@ namespace Logic
                 DealToAll newDeck plyrsRest dealtPlayers
 
         let rec DealInitalHand gameState hndsz =
+        //Deals to player left of the dealer (lowest id) first
+        //Then each other player in ascending ID order
+        //Then the dealer, repeat until desired hand size
             match hndsz with
             | 0 -> gameState
             | _ -> 
                 let plyrs, house = SplitHousePlayers gameState.Players
-                let finalPlyrs, nd = DealToAll gameState.Deck plyrs []
-                let finalDeck, finalHouse = DealToPlayer nd house.Head
-                let finalTble = finalHouse::finalPlyrs
-                
+                let finalPlyrs, newDeck = DealToAll gameState.Deck plyrs []
+                let finalDeck, finalHouse = DealToPlayer newDeck house
                 let newGameState = {gameState with 
                                         Deck = finalDeck; 
-                                        Players = finalTble;}
+                                        Players = finalHouse::finalPlyrs;}
                 DealInitalHand newGameState (hndsz-1)  
 
         let SetupGame gameState hndsz =
@@ -136,13 +142,13 @@ namespace Logic
                     |> List.minBy (fun p -> p.ID)
             {newGameState with
                 PlayersTurnID = minPlayer.ID;
-                State = PlayerTurn}
-            
+                State = PlayerTurn}     
 
     module Input =
         open System
         open Types.Games
         open LPlayer
+        // More dynamic menu system?
         // let rec MenuChoice f gameState =
         //     let choice = Console.ReadKey(true)
         //     match choice.KeyChar with
@@ -192,6 +198,8 @@ namespace Logic
                 StartMenu gameState
 
         let rec OptionMenu gameState =
+            //Add number of decks, min bet, max players, starting stack
+            //Rules variants, maybe new games eventually.
             Console.Clear()
             printfn "There are currently no options, press 1 to go back"
             let choice = Console.ReadKey(true)

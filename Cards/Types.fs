@@ -32,7 +32,7 @@
             Card List
 
         type Player =
-            {ID:Identity ;
+            {ID:Identity;
             Name:string;
             Hand:Hand; 
             Stack:decimal; 
@@ -59,5 +59,5 @@
              PlayersTurnID:Identity;
              State: State}
         
-        type Deal =
+        type Deal = //unused, still learning how.
             (Deck*Player) -> (Deck*Card)
