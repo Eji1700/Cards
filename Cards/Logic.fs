@@ -60,14 +60,21 @@ namespace Logic
             InputMoney() 
 
         let private createPlayer (ps:list<Player>) =
-            {ID = (Player ps.Length ); Name = setName(); Hand = []; Stack = setMoney(); Bet = 0m}
+            {ID = (Player ps.Length ); 
+            Name = setName(); 
+            Hand = []; 
+            //Stack = setMoney();
+            Stack = 100m; 
+            Bet = 0m}
 
         let AddPlayer g =
             {g with Players = (createPlayer g.Players) :: g.Players}
         
         let UpdatePlayer (plyrs:list<Player>) (newP:Player) =
             plyrs
-            |> List.map (fun (p) -> if p.ID = newP.ID then  {p with Hand = newP.Hand} else p )
+            |> List.map (fun (p) -> if p.ID = newP.ID then  
+                                        {p with Hand = newP.Hand} 
+                                    else p )
 
         let SelectPlayer id plyrs =
             plyrs
