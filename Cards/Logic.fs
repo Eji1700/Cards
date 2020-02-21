@@ -237,7 +237,9 @@ namespace Logic
                 DisplayPlayersHand plyrs.Tail
 
         let DisplayPlayers g =
-            let plyrs = SelectPlayers g.Players
+            let plyrs = 
+                SelectPlayers g.Players
+                |> List.sortBy (fun p -> p.ID)
             DisplayPlayersHand plyrs
 
     module Game =
