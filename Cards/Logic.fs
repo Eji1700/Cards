@@ -212,6 +212,32 @@ namespace Logic
                     Console.ReadKey(true) |> ignore
                     Console.Clear()
                     OptionMenu gameState
+
+        let rec PlayerAction gameState = 
+            Console.Clear()
+            printfn "1 - Show hands\n\
+                    2 - Hit\n\
+                    3 - Stay\n\
+                    "
+            let choice = Console.ReadKey(true).KeyChar.ToString()
+            match choice.ToLower() with
+            | "1" -> 
+                Console.Clear()
+                {gameState with State = NewGame}
+            | "2" -> 
+                Console.Clear()
+                {gameState with State = AddAPlayer}
+            | "o" -> 
+                Console.Clear()
+                {gameState with State = Options}
+            | "q" -> 
+                Console.Clear()
+                {gameState with State = Quit}
+            | _ ->
+                printfn "Please choose a valid option"
+                Console.ReadKey(true) |> ignore
+                Console.Clear()
+                PlayerAction gameState
         
         let QuitGame() =
             Console.Clear()
@@ -292,7 +318,7 @@ namespace Logic
                     DisplayDealer newGameState |> ignore
                     newGameState
             | PlayerTurn ->
-                QuitGame() |> ignore
+                let newGameState = PlayerAction gameState
                 gameState
             | HouseTurn ->
                 QuitGame() |> ignore
