@@ -144,10 +144,55 @@ namespace Logic
                 PlayersTurnID = minPlayer.ID;
                 State = PlayerTurn}     
 
+    module Output =
+        open Types.Cards
+        open Types.Players
+        open Types.Games
+        open LPlayer
+        open System
+
+        let DisplayCard c =
+            match c with 
+            | c -> printf "%A of %A" c.Face c.Suit
+
+        let rec DisplayHand (h:Hand) =
+            match h with 
+            | [] -> printf "\n"
+            | _ -> match h.Head with
+                    c ->  DisplayCard c
+                          if h.Tail <> [] then printf " and a "
+                          DisplayHand h.Tail
+
+        let DisplayDealer g =
+            printf "Dealer shows a "
+            let dealer = SelectHouse g.Players
+            DisplayHand dealer.Hand.Tail 
+
+        let rec DisplayPlayersHand (plyrs:List<Player>) =
+            match plyrs with
+            | [] -> printf "\n"
+            | _->
+                let p = plyrs.Head
+                printf"\n%s shows a " p.Name
+                DisplayHand p.Hand |> ignore
+                DisplayPlayersHand plyrs.Tail
+
+        let DisplayPlayers g =
+            let plyrs = 
+                SelectPlayers g.Players
+                |> List.sortBy (fun p -> p.ID)
+            DisplayPlayersHand plyrs
+
+        let DisplayGame g =
+            DisplayPlayers g
+            DisplayDealer g
+
     module Input =
         open System
         open Types.Games
         open LPlayer
+        open Deal
+        open Output
         // More dynamic menu system?
         // let rec MenuChoice f gameState =
         //     let choice = Console.ReadKey(true)
@@ -215,6 +260,7 @@ namespace Logic
 
         let rec PlayerAction gameState = 
             Console.Clear()
+            DisplayGame gameState
             printfn "1 - Show hands\n\
                     2 - Hit\n\
                     3 - Stay\n\
@@ -222,17 +268,18 @@ namespace Logic
             let choice = Console.ReadKey(true).KeyChar.ToString()
             match choice.ToLower() with
             | "1" -> 
-                Console.Clear()
-                {gameState with State = NewGame}
+                DisplayGame gameState
             | "2" -> 
                 Console.Clear()
-                {gameState with State = AddAPlayer}
-            | "o" -> 
-                Console.Clear()
-                {gameState with State = Options}
-            | "q" -> 
-                Console.Clear()
-                {gameState with State = Quit}
+                let plyr = SelectPlayer gameState.PlayersTurnID gameState.Players
+                let d, newP = DealToPlayer gameState.Deck plyr
+                let newGameState = 
+                    {gameState with 
+                        Deck = d; 
+                        Players = newP :: gameState.Players}
+                PlayerAction newGameState
+            | "3" -> 
+                PlayerAction gameState
             | _ ->
                 printfn "Please choose a valid option"
                 Console.ReadKey(true) |> ignore
@@ -243,45 +290,6 @@ namespace Logic
             Console.Clear()
             printfn "Thank you for playing"
             Console.ReadKey(true)
-
-    module Output =
-        open Types.Cards
-        open Types.Players
-        open Types.Games
-        open LPlayer
-        open System
-
-        let DisplayCard c =
-            match c with 
-            | c -> printf "%A of %A" c.Face c.Suit
-
-        let rec DisplayHand (h:Hand) =
-            match h with 
-            | [] -> printf "\n"
-            | _ -> match h.Head with
-                    c ->  DisplayCard c
-                          if h.Tail <> [] then printf " and a "
-                          DisplayHand h.Tail
-
-        let DisplayDealer g =
-            printf "Dealer shows a "
-            let dealer = SelectHouse g.Players
-            DisplayHand dealer.Hand.Tail 
-
-        let rec DisplayPlayersHand (plyrs:List<Player>) =
-            match plyrs with
-            | [] -> printf "\n"
-            | _->
-                let p = plyrs.Head
-                printf"\n%s shows a " p.Name
-                DisplayHand p.Hand |> ignore
-                DisplayPlayersHand plyrs.Tail
-
-        let DisplayPlayers g =
-            let plyrs = 
-                SelectPlayers g.Players
-                |> List.sortBy (fun p -> p.ID)
-            DisplayPlayersHand plyrs
 
     module Game =
         open System
@@ -314,8 +322,7 @@ namespace Logic
                 else
                     let newGameState  = SetupGame gameState 2
                     Console.Clear()
-                    DisplayPlayers newGameState |> ignore
-                    DisplayDealer newGameState |> ignore
+                    DisplayGame newGameState
                     newGameState
             | PlayerTurn ->
                 let newGameState = PlayerAction gameState
