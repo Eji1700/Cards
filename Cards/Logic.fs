@@ -269,6 +269,7 @@ namespace Logic
             match choice.ToLower() with
             | "1" -> 
                 DisplayGame gameState
+                PlayerAction gameState
             | "2" -> 
                 Console.Clear()
                 let plyr = SelectPlayer gameState.PlayersTurnID gameState.Players
