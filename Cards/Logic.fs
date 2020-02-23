@@ -333,7 +333,7 @@ namespace Logic
                     let newGameState  = SetupGame gameState 2
                     Console.Clear()
                     DisplayGame newGameState
-                    newGameState
+                    MainGameLoop newGameState
             | PlayerTurn ->
                 let newGameState = PlayerAction gameState
                 gameState
