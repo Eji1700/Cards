@@ -73,6 +73,9 @@ namespace Logic
             {g with Players = 
                     (createPlayer g.Players) :: g.Players}
         
+        let NextPlayer g =
+            g.Players
+            |> List.find (fun p -> p.ID > g.PlayersTurnID)
         // Maybe not needed at all or maybe should be used more?
         // let UpdatePlayer (plyrs:list<Player>) (newP:Player) =
         //     plyrs
@@ -280,6 +283,11 @@ namespace Logic
                         Players = newP :: gameState.Players}
                 PlayerAction newGameState
             | "3" -> 
+                let nextPlayer =
+                    List.find (fun g, p -> p.ID > g.PlayerTurnID) gameState
+                let newGameState =
+                    {gameState with
+                        PlayersTurnID = 2;}
                 PlayerAction gameState
             | _ ->
                 printfn "Please choose a valid option"
