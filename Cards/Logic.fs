@@ -74,11 +74,11 @@ namespace Logic
                     (createPlayer g.Players) :: g.Players}
      
         // Maybe not needed at all or maybe should be used more?
-        // let UpdatePlayer (plyrs:list<Player>) (newP:Player) =
-        //     plyrs
-        //     |> List.map (fun (p) -> if p.ID = newP.ID then  
-        //                                 {p with Hand = newP.Hand} 
-        //                             else p )
+        let UpdatePlayer (plyrs:list<Player>) (newP:Player) =
+            plyrs
+            |> List.map (fun (p) -> if p.ID = newP.ID then  
+                                        {p with Hand = newP.Hand} 
+                                    else p )
 
         let SelectPlayer id plyrs =
             plyrs
@@ -279,10 +279,11 @@ namespace Logic
                 Console.Clear()
                 let plyr = SelectPlayer gameState.PlayersTurnID gameState.Players
                 let d, newP = DealToPlayer gameState.Deck plyr
+                let newPlyrs = UpdatePlayer gameState.Players newP
                 let newGameState = 
                     {gameState with 
                         Deck = d; 
-                        Players = newP :: gameState.Players}
+                        Players = newPlyrs}
                 PlayerAction newGameState
             | "3" -> 
                 let nxtPlayer = NextPlayer gameState
