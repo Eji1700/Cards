@@ -102,9 +102,15 @@ namespace Logic
             (p,h)
 
         let NextPlayer g =
-            g.Players
-            |> List.sortBy (fun p -> p.ID)
-            |> List.find (fun p -> p.ID > g.PlayersTurnID)
+            let highestPlyr =
+                g.Players
+                |> List.maxBy (fun p -> p.ID)
+            if g.PlayersTurnID <> highestPlyr.ID then 
+                g.Players
+                |> List.sortBy (fun p -> p.ID)
+                |> List.find (fun p -> p.ID > g.PlayersTurnID)
+            else
+                SelectHouse g.Players
 
     module Deal =
         open Types.Deck
