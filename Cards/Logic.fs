@@ -1,4 +1,5 @@
 namespace Logic
+    //Rework logic to take and return gamestate.
     module Validate =
         open System
         let rec InputMoney() = //not used during testing
@@ -292,6 +293,7 @@ namespace Logic
                         Players = newPlyrs}
                 PlayerAction newGameState
             | "3" -> 
+                //need to redo next player to identify house
                 let nxtPlayer = NextPlayer gameState
                 let newGameState =
                     {gameState with
