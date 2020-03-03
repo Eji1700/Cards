@@ -50,6 +50,10 @@ namespace Logic
         let getCount (h:Hand) =
             h |> List.sumBy (fun c -> getFaceValue c.Face)
 
+        let getHandCount = function
+        | Some(card1, card2) -> [card1; card2] |> getCount
+        | None -> 0
+
         let create (f, s) =
             {Face = f; Suit = s}
 
