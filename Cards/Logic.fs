@@ -11,6 +11,7 @@ namespace Logic
 
     module LCard =
         open Types.Cards
+        open Types.Players
 
         let suits =
             [Spades; Hearts; Clubs; Diamonds]
@@ -30,6 +31,24 @@ namespace Logic
             match c with
             | Red -> "Red"
             | Black -> "Black"
+
+        let getFaceValue = function
+            | Two -> 2
+            | Three -> 3
+            | Four -> 4
+            | Five -> 5
+            | Six -> 6
+            | Seven -> 7
+            | Eight -> 8
+            | Nine -> 9
+            | Ten -> 10
+            | Jack -> 10
+            | Queen -> 10
+            | King -> 10
+            | Ace -> 11
+
+        let getCount (h:Hand) =
+            h |> List.sumBy (fun c -> getFaceValue c.Face)
 
         let create (f, s) =
             {Face = f; Suit = s}
