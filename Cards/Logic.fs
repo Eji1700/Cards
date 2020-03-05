@@ -202,7 +202,14 @@ namespace Logic
         let DisplayDealer g =
             printf "Dealer shows a "
             let dealer = SelectHouse g.Players
-            DisplayHand dealer.Hand.Tail 
+            if g.PlayersTurnID = House then
+                DisplayHand dealer.Hand
+                let cnt = getCount dealer.Hand
+                printf "For a total of %i" cnt
+            else
+                DisplayHand dealer.Hand.Tail 
+                let cnt = getCount dealer.Hand.Tail
+                printf "For a total of %i" cnt
 
         let rec DisplayPlayersHand (plyrs:List<Player>) =
             match plyrs with
