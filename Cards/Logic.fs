@@ -48,7 +48,8 @@ namespace Logic
             | Ace -> 11
 
         let getCount (h:Hand) =
-            h |> List.sumBy (fun c -> getFaceValue c.Face)
+            h 
+            |> List.sumBy (fun c -> getFaceValue c.Face)
 
         let getHandCount = function
         | Some(card1, card2) -> [card1; card2] |> getCount
@@ -184,7 +185,7 @@ namespace Logic
         open Types.Players
         open Types.Games
         open LPlayer
-        open System
+        open LCard
 
         let DisplayCard c =
             match c with 
@@ -210,6 +211,8 @@ namespace Logic
                 let p = plyrs.Head
                 printf"\n%s shows a " p.Name
                 DisplayHand p.Hand |> ignore
+                let cnt = getCount p.Hand
+                printf "For a total of %i" cnt
                 DisplayPlayersHand plyrs.Tail
 
         let DisplayPlayers g =
