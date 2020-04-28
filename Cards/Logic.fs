@@ -205,11 +205,11 @@ namespace Logic
             if g.PlayersTurnID = House then
                 DisplayHand dealer.Hand
                 let cnt = getCount dealer.Hand
-                printf "For a total of %i" cnt
+                printf "For a total of %i\n" cnt
             else
                 DisplayHand dealer.Hand.Tail 
                 let cnt = getCount dealer.Hand.Tail
-                printf "For a total of %i" cnt
+                printf "For a total of %i\n" cnt
 
         let rec DisplayPlayersHand (plyrs:List<Player>) =
             match plyrs with
@@ -374,7 +374,6 @@ namespace Logic
                 else
                     let newGameState  = SetupGame gameState 2
                     Console.Clear()
-                    DisplayGame newGameState
                     MainGameLoop newGameState
             | PlayerTurn ->
                 let newGameState = PlayerAction gameState
